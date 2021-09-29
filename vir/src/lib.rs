@@ -22,3 +22,4 @@ include!(concat!(env!("OUT_DIR"), "/vir_gen.rs"));
 
 pub mod converter;
 pub mod legacy;
+pub mod common;
