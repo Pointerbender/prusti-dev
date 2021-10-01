@@ -20,6 +20,6 @@ extern crate serde;
 // `"rust-analyzer.cargo.loadOutDirsFromCheck": true` to your VS Code settings.
 include!(concat!(env!("OUT_DIR"), "/vir_gen.rs"));
 
+pub mod common;
 pub mod converter;
 pub mod legacy;
-pub mod common;
