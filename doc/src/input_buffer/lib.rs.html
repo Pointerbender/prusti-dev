@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `&#x2F;home&#x2F;runner&#x2F;.cargo&#x2F;registry&#x2F;src&#x2F;github.com-1ecc6299db9ec823&#x2F;input_buffer-0.2.0&#x2F;src&#x2F;lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../input_buffer/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `&#x2F;home&#x2F;runner&#x2F;.cargo&#x2F;registry&#x2F;src&#x2F;github.com-1ecc6299db9ec823&#x2F;input_buffer-0.3.1&#x2F;src&#x2F;lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../input_buffer/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -240,6 +240,22 @@
 <span id="240">240</span>
 <span id="241">241</span>
 <span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
 </pre><pre class="rust"><code><span class="doccomment">//! A buffer for reading data from the network.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! The `InputBuffer` is a buffer of bytes similar to a first-in, first-out queue.</span>
@@ -248,11 +264,11 @@
 <span class="attribute">#![<span class="ident">deny</span>(<span class="ident">missing_debug_implementations</span>)]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">bytes</span>;
 
-<span class="kw">use</span> <a class="ident" href="https://doc.rust-lang.org/nightly/alloc/fmt/index.html">std::fmt</a>;
 <span class="kw">use</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/error/index.html">std::error</a>;
+<span class="kw">use</span> <a class="ident" href="https://doc.rust-lang.org/nightly/alloc/fmt/index.html">std::fmt</a>;
 <span class="kw">use</span> <span class="ident">std::io</span>::{<a class="ident" href="https://doc.rust-lang.org/nightly/std/io/cursor/struct.Cursor.html">Cursor</a>, <a class="ident" href="https://doc.rust-lang.org/nightly/std/io/trait.Read.html">Read</a>, <span class="prelude-ty">Result</span> <span class="kw">as</span> <span class="ident">IoResult</span>};
 
-<span class="kw">use</span> <span class="ident">bytes</span>::{<a class="ident" href="../../bytes/buf/buf/trait.Buf.html">Buf</a>, <a class="ident" href="../../bytes/buf/buf_mut/trait.BufMut.html">BufMut</a>};
+<span class="kw">use</span> <span class="ident">bytes</span>::{<a class="ident" href="../../bytes/buf/buf_impl/trait.Buf.html">Buf</a>, <a class="ident" href="../../bytes/buf/buf_mut/trait.BufMut.html">BufMut</a>};
 
 <span class="doccomment">/// A FIFO buffer for reading packets from network.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
@@ -263,55 +279,55 @@
 
 <span class="kw">impl</span> <a class="ident" href="../../src/input_buffer/lib.rs.html#17">InputBuffer</a> {
     <span class="doccomment">/// Create a new empty input buffer.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() -&gt; <span class="self">Self</span> {
         <span class="ident"><span class="self">Self</span>::with_capacity</span>(<a class="ident" href="../../src/input_buffer/lib.rs.html#20">MIN_READ</a>)
     }
 
     <span class="doccomment">/// Create a new empty input buffer.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_capacity</span>(<span class="ident">capacity</span>: <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_capacity</span>(<span class="ident">capacity</span>: <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) -&gt; <span class="self">Self</span> {
         <span class="ident"><span class="self">Self</span>::from_partially_read</span>(<span class="ident">Vec::with_capacity</span>(<a class="ident" href="../../src/input_buffer/lib.rs.html#29">capacity</a>))
     }
 
     <span class="doccomment">/// Create a input buffer filled with previously read data.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_partially_read</span>(<span class="ident">part</span>: <span class="ident">Vec</span><span class="op">&lt;</span><a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_partially_read</span>(<span class="ident">part</span>: <span class="ident">Vec</span><span class="op">&lt;</span><a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a><span class="op">&gt;</span>) -&gt; <span class="self">Self</span> {
         <a class="ident" href="../../src/input_buffer/lib.rs.html#17">InputBuffer</a>(<span class="ident">Cursor::new</span>(<a class="ident" href="../../src/input_buffer/lib.rs.html#34">part</a>))
     }
 
     <span class="doccomment">/// Get the data as a cursor.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_cursor</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">Cursor</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a><span class="op">&gt;</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_cursor</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">Cursor</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw-2">&amp;</span><a class="self" href="../../src/input_buffer/lib.rs.html#39">self</a>.<span class="number">0</span>
     }
 
     <span class="doccomment">/// Get the data as a mutable cursor.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_cursor_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Cursor</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <a class="self" href="../../src/input_buffer/lib.rs.html#44">self</a>.<span class="number">0</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_cursor_mut</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut</span> <span class="ident">Cursor</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a><span class="op">&gt;</span><span class="op">&gt;</span> {
+        <span class="kw-2">&amp;mut</span> <a class="self" href="../../src/input_buffer/lib.rs.html#44">self</a>.<span class="number">0</span>
     }
 
     <span class="doccomment">/// Remove the already consumed portion of the data.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">remove_garbage</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">remove_garbage</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) {
         <span class="kw">let</span> <span class="ident">pos</span> <span class="op">=</span> <a class="self" href="../../src/input_buffer/lib.rs.html#49">self</a>.<span class="number">0</span>.<span class="ident">position</span>() <span class="kw">as</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>;
         <a class="self" href="../../src/input_buffer/lib.rs.html#49">self</a>.<span class="number">0</span>.<span class="ident">get_mut</span>().<span class="ident">drain</span>(<span class="number">0</span>..<a class="ident" href="../../src/input_buffer/lib.rs.html#50">pos</a>).<span class="ident">count</span>();
         <a class="self" href="../../src/input_buffer/lib.rs.html#49">self</a>.<span class="number">0</span>.<span class="ident">set_position</span>(<span class="number">0</span>);
     }
 
     <span class="doccomment">/// Get the rest of the buffer and destroy the buffer.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_vec</span>(<span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_vec</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="ident">Vec</span><span class="op">&lt;</span><a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a><span class="op">&gt;</span> {
         <a class="self" href="../../src/input_buffer/lib.rs.html#56">self</a>.<a class="ident" href="../../src/input_buffer/lib.rs.html#49">remove_garbage</a>();
         <a class="self" href="../../src/input_buffer/lib.rs.html#56">self</a>.<span class="number">0</span>.<span class="ident">into_inner</span>()
     }
 
     <span class="doccomment">/// Read next portion of data from the given input stream.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read_from</span><span class="op">&lt;</span><span class="ident">S</span>: <a class="ident" href="https://doc.rust-lang.org/nightly/std/io/trait.Read.html">Read</a><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">stream</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">S</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">IoResult</span><span class="op">&lt;</span><a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read_from</span><span class="op">&lt;</span><span class="ident">S</span>: <a class="ident" href="https://doc.rust-lang.org/nightly/std/io/trait.Read.html">Read</a><span class="op">&gt;</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">stream</span>: <span class="kw-2">&amp;mut</span> <span class="ident">S</span>) -&gt; <span class="ident">IoResult</span><span class="op">&lt;</span><a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a><span class="op">&gt;</span> {
         <a class="self" href="../../src/input_buffer/lib.rs.html#62">self</a>.<a class="ident" href="../../src/input_buffer/lib.rs.html#67">prepare</a>().<a class="ident" href="../../src/input_buffer/lib.rs.html#145">read_from</a>(<a class="ident" href="../../src/input_buffer/lib.rs.html#62">stream</a>)
     }
 
     <span class="doccomment">/// Prepare reading.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">prepare</span><span class="op">&lt;</span><span class="lifetime">&#39;t</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;t</span> <span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DoRead</span><span class="op">&lt;</span><span class="lifetime">&#39;t</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">prepare</span><span class="op">&lt;</span><span class="lifetime">&#39;t</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;t</span> <span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="ident">DoRead</span><span class="op">&lt;</span><span class="lifetime">&#39;t</span><span class="op">&gt;</span> {
         <a class="self" href="../../src/input_buffer/lib.rs.html#67">self</a>.<a class="ident" href="../../src/input_buffer/lib.rs.html#72">prepare_reserve</a>(<a class="ident" href="../../src/input_buffer/lib.rs.html#20">MIN_READ</a>)
     }
 
     <span class="doccomment">/// Prepare reading with the given reserve.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">prepare_reserve</span><span class="op">&lt;</span><span class="lifetime">&#39;t</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;t</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">reserve</span>: <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DoRead</span><span class="op">&lt;</span><span class="lifetime">&#39;t</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">prepare_reserve</span><span class="op">&lt;</span><span class="lifetime">&#39;t</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;t</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">reserve</span>: <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) -&gt; <span class="ident">DoRead</span><span class="op">&lt;</span><span class="lifetime">&#39;t</span><span class="op">&gt;</span> {
         <span class="comment">// Space that we have right now.</span>
         <span class="kw">let</span> <span class="ident">free_space</span> <span class="op">=</span> <a class="self" href="../../src/input_buffer/lib.rs.html#72">self</a>.<a class="ident" href="../../src/input_buffer/lib.rs.html#90">total_len</a>() <span class="op">-</span> <a class="self" href="../../src/input_buffer/lib.rs.html#72">self</a>.<a class="ident" href="../../src/input_buffer/lib.rs.html#95">filled_len</a>();
         <span class="comment">// Space that we could have after garbage collect.</span>
@@ -329,29 +345,29 @@
 
 <span class="kw">impl</span> <a class="ident" href="../../src/input_buffer/lib.rs.html#17">InputBuffer</a> {
     <span class="doccomment">/// Get the total buffer length.</span>
-    <span class="kw">fn</span> <span class="ident">total_len</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a> {
+    <span class="kw">fn</span> <span class="ident">total_len</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a> {
         <a class="self" href="../../src/input_buffer/lib.rs.html#90">self</a>.<span class="number">0</span>.<span class="ident">get_ref</span>().<span class="ident">capacity</span>()
     }
 
     <span class="doccomment">/// Get the filled buffer length.</span>
-    <span class="kw">fn</span> <span class="ident">filled_len</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a> {
+    <span class="kw">fn</span> <span class="ident">filled_len</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a> {
         <a class="self" href="../../src/input_buffer/lib.rs.html#95">self</a>.<span class="number">0</span>.<span class="ident">get_ref</span>().<span class="ident">len</span>()
     }
 
     <span class="doccomment">/// Get the consumed data length.</span>
-    <span class="kw">fn</span> <span class="ident">consumed_len</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a> {
+    <span class="kw">fn</span> <span class="ident">consumed_len</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a> {
         <a class="self" href="../../src/input_buffer/lib.rs.html#100">self</a>.<span class="number">0</span>.<span class="ident">position</span>() <span class="kw">as</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>
     }
 }
 
-<span class="kw">impl</span> <a class="ident" href="../../bytes/buf/buf/trait.Buf.html">Buf</a> <span class="kw">for</span> <a class="ident" href="../../src/input_buffer/lib.rs.html#17">InputBuffer</a> {
-    <span class="kw">fn</span> <span class="ident">remaining</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a> {
+<span class="kw">impl</span> <a class="ident" href="../../bytes/buf/buf_impl/trait.Buf.html">Buf</a> <span class="kw">for</span> <a class="ident" href="../../src/input_buffer/lib.rs.html#17">InputBuffer</a> {
+    <span class="kw">fn</span> <span class="ident">remaining</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a> {
         <span class="ident">Buf::remaining</span>(<a class="self" href="../../src/input_buffer/lib.rs.html#106">self</a>.<a class="ident" href="../../src/input_buffer/lib.rs.html#39">as_cursor</a>())
     }
-    <span class="kw">fn</span> <span class="ident">bytes</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span>[<a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>] {
+    <span class="kw">fn</span> <span class="ident">bytes</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[<a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>] {
         <span class="ident">Buf::bytes</span>(<a class="self" href="../../src/input_buffer/lib.rs.html#109">self</a>.<a class="ident" href="../../src/input_buffer/lib.rs.html#39">as_cursor</a>())
     }
-    <span class="kw">fn</span> <span class="ident">advance</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">size</span>: <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) {
+    <span class="kw">fn</span> <span class="ident">advance</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">size</span>: <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) {
         <span class="ident">Buf::advance</span>(<a class="self" href="../../src/input_buffer/lib.rs.html#112">self</a>.<a class="ident" href="../../src/input_buffer/lib.rs.html#44">as_cursor_mut</a>(), <a class="ident" href="../../src/input_buffer/lib.rs.html#112">size</a>)
     }
 }
@@ -366,7 +382,7 @@
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;t</span><span class="op">&gt;</span> <span class="ident">DoRead</span><span class="op">&lt;</span><span class="lifetime">&#39;t</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Enforce the size limit.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_limit</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">limit</span>: <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <a class="ident" href="../../src/input_buffer/lib.rs.html#166">SizeLimit</a><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_limit</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">limit</span>: <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <a class="ident" href="../../src/input_buffer/lib.rs.html#180">SizeLimit</a><span class="op">&gt;</span> {
         <span class="comment">// Total size we shall have after reserve.</span>
         <span class="kw">let</span> <span class="ident">total_len</span> <span class="op">=</span> <a class="self" href="../../src/input_buffer/lib.rs.html#127">self</a>.<span class="ident">buf</span>.<a class="ident" href="../../src/input_buffer/lib.rs.html#95">filled_len</a>() <span class="op">+</span> <a class="self" href="../../src/input_buffer/lib.rs.html#127">self</a>.<span class="ident">reserve</span>;
         <span class="comment">// Size we could free if we collect garbage.</span>
@@ -379,25 +395,39 @@
             }
             <span class="prelude-val">Ok</span>(<a class="self" href="../../src/input_buffer/lib.rs.html#127">self</a>)
         } <span class="kw">else</span> {
-            <span class="prelude-val">Err</span>(<a class="ident" href="../../src/input_buffer/lib.rs.html#166">SizeLimit</a>)
+            <span class="prelude-val">Err</span>(<a class="ident" href="../../src/input_buffer/lib.rs.html#180">SizeLimit</a>)
         }
     }
 
     <span class="doccomment">/// Read next portion of data from the given input stream.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read_from</span><span class="op">&lt;</span><span class="ident">S</span>: <a class="ident" href="https://doc.rust-lang.org/nightly/std/io/trait.Read.html">Read</a><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">stream</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">S</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">IoResult</span><span class="op">&lt;</span><a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read_from</span><span class="op">&lt;</span><span class="ident">S</span>: <a class="ident" href="https://doc.rust-lang.org/nightly/std/io/trait.Read.html">Read</a><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">stream</span>: <span class="kw-2">&amp;mut</span> <span class="ident">S</span>) -&gt; <span class="ident">IoResult</span><span class="op">&lt;</span><a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a><span class="op">&gt;</span> {
         <span class="kw">if</span> <a class="self" href="../../src/input_buffer/lib.rs.html#145">self</a>.<span class="ident">remove_garbage</span> {
             <a class="self" href="../../src/input_buffer/lib.rs.html#145">self</a>.<span class="ident">buf</span>.<a class="ident" href="../../src/input_buffer/lib.rs.html#49">remove_garbage</a>();
         }
 
-        <span class="kw">let</span> <span class="ident">v</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Vec</span><span class="op">&lt;</span><a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a><span class="op">&gt;</span> <span class="op">=</span> <a class="self" href="../../src/input_buffer/lib.rs.html#145">self</a>.<span class="ident">buf</span>.<span class="number">0</span>.<span class="ident">get_mut</span>();
+        <span class="kw">let</span> <span class="ident">v</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Vec</span><span class="op">&lt;</span><a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a><span class="op">&gt;</span> <span class="op">=</span> <a class="self" href="../../src/input_buffer/lib.rs.html#145">self</a>.<span class="ident">buf</span>.<span class="number">0</span>.<span class="ident">get_mut</span>();
 
         <a class="ident" href="../../src/input_buffer/lib.rs.html#150">v</a>.<span class="ident">reserve</span>(<a class="self" href="../../src/input_buffer/lib.rs.html#145">self</a>.<span class="ident">reserve</span>);
 
         <span class="macro">assert!</span>(<a class="ident" href="../../src/input_buffer/lib.rs.html#150">v</a>.<span class="ident">capacity</span>() <span class="op">&gt;</span> <a class="ident" href="../../src/input_buffer/lib.rs.html#150">v</a>.<span class="ident">len</span>());
         <span class="kw">let</span> <span class="ident">size</span> <span class="op">=</span> <span class="kw">unsafe</span> {
-            <span class="kw">let</span> <span class="ident">size</span> <span class="op">=</span> <a class="ident" href="../../src/input_buffer/lib.rs.html#145">stream</a>.<span class="ident">read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <a class="ident" href="../../src/input_buffer/lib.rs.html#150">v</a>.<span class="ident">bytes_mut</span>()[..<a class="self" href="../../src/input_buffer/lib.rs.html#145">self</a>.<span class="ident">reserve</span>])<span class="question-mark">?</span>;
-            <a class="ident" href="../../src/input_buffer/lib.rs.html#150">v</a>.<span class="ident">advance_mut</span>(<a class="ident" href="../../src/input_buffer/lib.rs.html#156">size</a>);
-            <a class="ident" href="../../src/input_buffer/lib.rs.html#156">size</a>
+            <span class="comment">// TODO: This can be replaced by std::mem::MaybeUninit::first_ptr_mut() once</span>
+            <span class="comment">// it is stabilized.</span>
+            <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="kw-2">&amp;mut</span> <a class="ident" href="../../src/input_buffer/lib.rs.html#150">v</a>.<span class="ident">bytes_mut</span>()[..<a class="self" href="../../src/input_buffer/lib.rs.html#145">self</a>.<span class="ident">reserve</span>];
+            <span class="comment">// We first have to initialize the data or otherwise casting to a byte slice</span>
+            <span class="comment">// below is UB. See also code of std::io::copy(), tokio::AsyncRead::poll_read_buf()</span>
+            <span class="comment">// and others.</span>
+            <span class="comment">//</span>
+            <span class="comment">// Read::read() might read uninitialized data otherwise, and generally creating</span>
+            <span class="comment">// references to uninitialized data is UB.</span>
+            <span class="kw">for</span> <a class="ident" href="../../src/input_buffer/lib.rs.html#165">x</a> <span class="kw">in</span> <a class="ident" href="../../src/input_buffer/lib.rs.html#158">data</a>.<span class="ident">iter_mut</span>() {
+                <span class="kw-2">*</span><a class="ident" href="../../src/input_buffer/lib.rs.html#165">x</a>.<span class="ident">as_mut_ptr</span>() <span class="op">=</span> <span class="number">0</span>;
+            }
+            <span class="comment">// Now it&#39;s safe to cast it to a byte slice</span>
+            <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="ident">std::slice::from_raw_parts_mut</span>(<a class="ident" href="../../src/input_buffer/lib.rs.html#158">data</a>.<span class="ident">as_mut_ptr</span>() <span class="kw">as</span> <span class="kw-2">*mut</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>, <a class="ident" href="../../src/input_buffer/lib.rs.html#158">data</a>.<span class="ident">len</span>());
+            <span class="kw">let</span> <span class="ident">size</span> <span class="op">=</span> <a class="ident" href="../../src/input_buffer/lib.rs.html#145">stream</a>.<span class="ident">read</span>(<a class="ident" href="../../src/input_buffer/lib.rs.html#169">data</a>)<span class="question-mark">?</span>;
+            <a class="ident" href="../../src/input_buffer/lib.rs.html#150">v</a>.<span class="ident">advance_mut</span>(<a class="ident" href="../../src/input_buffer/lib.rs.html#170">size</a>);
+            <a class="ident" href="../../src/input_buffer/lib.rs.html#170">size</a>
         };
         <span class="prelude-val">Ok</span>(<a class="ident" href="../../src/input_buffer/lib.rs.html#155">size</a>)
     }
@@ -407,14 +437,14 @@
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SizeLimit</span>;
 
-<span class="kw">impl</span> <a class="ident" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html">fmt::Display</a> <span class="kw">for</span> <a class="ident" href="../../src/input_buffer/lib.rs.html#166">SizeLimit</a> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <a class="ident" href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html">fmt::Formatter</a>) <span class="op">-</span><span class="op">&gt;</span> <a class="ident" href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html">fmt::Result</a> {
-        <span class="macro">write!</span>(<a class="ident" href="../../src/input_buffer/lib.rs.html#169">f</a>, <span class="string">&quot;SizeLimit&quot;</span>)
+<span class="kw">impl</span> <a class="ident" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html">fmt::Display</a> <span class="kw">for</span> <a class="ident" href="../../src/input_buffer/lib.rs.html#180">SizeLimit</a> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <a class="ident" href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html">fmt::Formatter</a>) -&gt; <a class="ident" href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html">fmt::Result</a> {
+        <span class="macro">write!</span>(<a class="ident" href="../../src/input_buffer/lib.rs.html#183">f</a>, <span class="string">&quot;SizeLimit&quot;</span>)
     }
 }
 
-<span class="kw">impl</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/error/trait.Error.html">error::Error</a> <span class="kw">for</span> <a class="ident" href="../../src/input_buffer/lib.rs.html#166">SizeLimit</a> {
-    <span class="kw">fn</span> <span class="ident">description</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a> {
+<span class="kw">impl</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/error/trait.Error.html">error::Error</a> <span class="kw">for</span> <a class="ident" href="../../src/input_buffer/lib.rs.html#180">SizeLimit</a> {
+    <span class="kw">fn</span> <span class="ident">description</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a> {
         <span class="string">&quot;Size limit exceeded&quot;</span>
     }
 }
@@ -423,14 +453,14 @@
 <span class="kw">mod</span> <span class="ident">tests</span> {
 
     <span class="kw">use</span> <span class="ident"><span class="kw">super</span>::InputBuffer</span>;
-    <span class="kw">use</span> <span class="ident">std::io::Cursor</span>;
     <span class="kw">use</span> <span class="ident">bytes::Buf</span>;
+    <span class="kw">use</span> <span class="ident">std::io::Cursor</span>;
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">simple_reading</span>() {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">inp</span> <span class="op">=</span> <span class="ident">Cursor::new</span>(<span class="string">b&quot;Hello World!&quot;</span>.<span class="ident">to_vec</span>());
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">InputBuffer::new</span>();
-        <span class="kw">let</span> <span class="ident">size</span> <span class="op">=</span> <span class="ident">buf</span>.<span class="ident">read_from</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">inp</span>).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">size</span> <span class="op">=</span> <span class="ident">buf</span>.<span class="ident">read_from</span>(<span class="kw-2">&amp;mut</span> <span class="ident">inp</span>).<span class="ident">unwrap</span>();
         <span class="macro">assert_eq!</span>(<span class="ident">size</span>, <span class="number">12</span>);
         <span class="macro">assert_eq!</span>(<span class="ident">buf</span>.<span class="ident">bytes</span>(), <span class="string">b&quot;Hello World!&quot;</span>);
     }
@@ -439,18 +469,18 @@
     <span class="kw">fn</span> <span class="ident">partial_reading</span>() {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">inp</span> <span class="op">=</span> <span class="ident">Cursor::new</span>(<span class="string">b&quot;Hello World!&quot;</span>.<span class="ident">to_vec</span>());
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">InputBuffer::with_capacity</span>(<span class="number">4</span>);
-        <span class="kw">let</span> <span class="ident">size</span> <span class="op">=</span> <span class="ident">buf</span>.<span class="ident">prepare_reserve</span>(<span class="number">4</span>).<span class="ident">read_from</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">inp</span>).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">size</span> <span class="op">=</span> <span class="ident">buf</span>.<span class="ident">prepare_reserve</span>(<span class="number">4</span>).<span class="ident">read_from</span>(<span class="kw-2">&amp;mut</span> <span class="ident">inp</span>).<span class="ident">unwrap</span>();
         <span class="macro">assert_eq!</span>(<span class="ident">size</span>, <span class="number">4</span>);
         <span class="macro">assert_eq!</span>(<span class="ident">buf</span>.<span class="ident">bytes</span>(), <span class="string">b&quot;Hell&quot;</span>);
         <span class="ident">buf</span>.<span class="ident">advance</span>(<span class="number">2</span>);
         <span class="macro">assert_eq!</span>(<span class="ident">buf</span>.<span class="ident">bytes</span>(), <span class="string">b&quot;ll&quot;</span>);
-        <span class="kw">let</span> <span class="ident">size</span> <span class="op">=</span> <span class="ident">buf</span>.<span class="ident">prepare_reserve</span>(<span class="number">1</span>).<span class="ident">read_from</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">inp</span>).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">size</span> <span class="op">=</span> <span class="ident">buf</span>.<span class="ident">prepare_reserve</span>(<span class="number">1</span>).<span class="ident">read_from</span>(<span class="kw-2">&amp;mut</span> <span class="ident">inp</span>).<span class="ident">unwrap</span>();
         <span class="macro">assert_eq!</span>(<span class="ident">size</span>, <span class="number">1</span>);
         <span class="macro">assert_eq!</span>(<span class="ident">buf</span>.<span class="ident">bytes</span>(), <span class="string">b&quot;llo&quot;</span>);
-        <span class="kw">let</span> <span class="ident">size</span> <span class="op">=</span> <span class="ident">buf</span>.<span class="ident">prepare_reserve</span>(<span class="number">4</span>).<span class="ident">read_from</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">inp</span>).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">size</span> <span class="op">=</span> <span class="ident">buf</span>.<span class="ident">prepare_reserve</span>(<span class="number">4</span>).<span class="ident">read_from</span>(<span class="kw-2">&amp;mut</span> <span class="ident">inp</span>).<span class="ident">unwrap</span>();
         <span class="macro">assert_eq!</span>(<span class="ident">size</span>, <span class="number">4</span>);
         <span class="macro">assert_eq!</span>(<span class="ident">buf</span>.<span class="ident">bytes</span>(), <span class="string">b&quot;llo Wor&quot;</span>);
-        <span class="kw">let</span> <span class="ident">size</span> <span class="op">=</span> <span class="ident">buf</span>.<span class="ident">prepare_reserve</span>(<span class="number">16</span>).<span class="ident">read_from</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">inp</span>).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">size</span> <span class="op">=</span> <span class="ident">buf</span>.<span class="ident">prepare_reserve</span>(<span class="number">16</span>).<span class="ident">read_from</span>(<span class="kw-2">&amp;mut</span> <span class="ident">inp</span>).<span class="ident">unwrap</span>();
         <span class="macro">assert_eq!</span>(<span class="ident">size</span>, <span class="number">3</span>);
         <span class="macro">assert_eq!</span>(<span class="ident">buf</span>.<span class="ident">bytes</span>(), <span class="string">b&quot;llo World!&quot;</span>);
     }
@@ -459,10 +489,11 @@
     <span class="kw">fn</span> <span class="ident">limiting</span>() {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">inp</span> <span class="op">=</span> <span class="ident">Cursor::new</span>(<span class="string">b&quot;Hello World!&quot;</span>.<span class="ident">to_vec</span>());
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">InputBuffer::with_capacity</span>(<span class="number">4</span>);
-        <span class="kw">let</span> <span class="ident">size</span> <span class="op">=</span> <span class="ident">buf</span>.<span class="ident">prepare_reserve</span>(<span class="number">4</span>)
+        <span class="kw">let</span> <span class="ident">size</span> <span class="op">=</span> <span class="ident">buf</span>
+            .<span class="ident">prepare_reserve</span>(<span class="number">4</span>)
             .<span class="ident">with_limit</span>(<span class="number">5</span>)
             .<span class="ident">unwrap</span>()
-            .<span class="ident">read_from</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">inp</span>)
+            .<span class="ident">read_from</span>(<span class="kw-2">&amp;mut</span> <span class="ident">inp</span>)
             .<span class="ident">unwrap</span>();
         <span class="macro">assert_eq!</span>(<span class="ident">size</span>, <span class="number">4</span>);
         <span class="macro">assert_eq!</span>(<span class="ident">buf</span>.<span class="ident">bytes</span>(), <span class="string">b&quot;Hell&quot;</span>);
@@ -473,10 +504,11 @@
             <span class="macro">assert!</span>(<span class="ident">e</span>.<span class="ident">is_err</span>());
         }
         <span class="ident">buf</span>.<span class="ident">advance</span>(<span class="number">1</span>);
-        <span class="kw">let</span> <span class="ident">size</span> <span class="op">=</span> <span class="ident">buf</span>.<span class="ident">prepare_reserve</span>(<span class="number">4</span>)
+        <span class="kw">let</span> <span class="ident">size</span> <span class="op">=</span> <span class="ident">buf</span>
+            .<span class="ident">prepare_reserve</span>(<span class="number">4</span>)
             .<span class="ident">with_limit</span>(<span class="number">5</span>)
             .<span class="ident">unwrap</span>()
-            .<span class="ident">read_from</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">inp</span>)
+            .<span class="ident">read_from</span>(<span class="kw-2">&amp;mut</span> <span class="ident">inp</span>)
             .<span class="ident">unwrap</span>();
         <span class="macro">assert_eq!</span>(<span class="ident">size</span>, <span class="number">4</span>);
         <span class="macro">assert_eq!</span>(<span class="ident">buf</span>.<span class="ident">bytes</span>(), <span class="string">b&quot;lo Wo&quot;</span>);

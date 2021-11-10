@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `test-crates&#x2F;src&#x2F;main.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>main.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../test_crates/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `test-crates&#x2F;src&#x2F;main.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>main.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../test_crates/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -287,8 +287,6 @@
 <span id="287">287</span>
 <span id="288">288</span>
 <span id="289">289</span>
-<span id="290">290</span>
-<span id="291">291</span>
 </pre><pre class="rust"><code><span class="comment">// © 2020, ETH Zurich</span>
 <span class="comment">//</span>
 <span class="comment">// This Source Code Form is subject to the terms of the Mozilla Public</span>
@@ -314,7 +312,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><a class="ident" href="../../src/test_crates/main.rs.html#20-23">CrateRecord</a><span class="op">&gt;</span> <span class="kw">for</span> <a class="ident" href="../../rustwide/crates/struct.Crate.html">Crate</a> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">record</span>: <a class="ident" href="../../src/test_crates/main.rs.html#20-23">CrateRecord</a>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">record</span>: <a class="ident" href="../../src/test_crates/main.rs.html#20-23">CrateRecord</a>) -&gt; <span class="self">Self</span> {
         <span class="ident">Crate::crates_io</span>(<span class="kw-2">&amp;</span><a class="ident" href="../../src/test_crates/main.rs.html#26">record</a>.<span class="ident">name</span>, <span class="kw-2">&amp;</span><a class="ident" href="../../src/test_crates/main.rs.html#26">record</a>.<span class="ident">version</span>)
     }
 }
@@ -336,11 +334,11 @@
 }
 
 <span class="kw">impl</span> <a class="ident" href="../../rustwide/cmd/trait.Runnable.html">cmd::Runnable</a> <span class="kw">for</span> <a class="ident" href="../../src/test_crates/main.rs.html#40-45">CargoPrusti</a> {
-    <span class="kw">fn</span> <span class="ident">name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <a class="ident" href="../../rustwide/cmd/enum.Binary.html">cmd::Binary</a> {
+    <span class="kw">fn</span> <span class="ident">name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <a class="ident" href="../../rustwide/cmd/enum.Binary.html">cmd::Binary</a> {
         <span class="ident">cmd::Binary::Global</span>(<a class="self" href="../../src/test_crates/main.rs.html#48">self</a>.<span class="ident">prusti_home</span>.<span class="ident">join</span>(<span class="string">&quot;cargo-prusti&quot;</span>))
     }
 
-    <span class="kw">fn</span> <span class="ident">prepare_command</span><span class="op">&lt;</span><span class="lifetime">&#39;w</span>, <span class="lifetime">&#39;pl</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">cmd</span>: <span class="ident">cmd::Command</span><span class="op">&lt;</span><span class="lifetime">&#39;w</span>, <span class="lifetime">&#39;pl</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">cmd::Command</span><span class="op">&lt;</span><span class="lifetime">&#39;w</span>, <span class="lifetime">&#39;pl</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">prepare_command</span><span class="op">&lt;</span><span class="lifetime">&#39;w</span>, <span class="lifetime">&#39;pl</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">cmd</span>: <span class="ident">cmd::Command</span><span class="op">&lt;</span><span class="lifetime">&#39;w</span>, <span class="lifetime">&#39;pl</span><span class="op">&gt;</span>) -&gt; <span class="ident">cmd::Command</span><span class="op">&lt;</span><span class="lifetime">&#39;w</span>, <span class="lifetime">&#39;pl</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">java_home</span> <span class="op">=</span> <a class="self" href="../../src/test_crates/main.rs.html#52">self</a>
             .<span class="ident">java_home</span>
             .<span class="ident">as_ref</span>()
@@ -364,7 +362,7 @@
     <span class="ident">components</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><a class="ident" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html">String</a><span class="op">&gt;</span><span class="op">&gt;</span>,
 }
 
-<span class="kw">fn</span> <span class="ident">get_rust_toolchain</span>() <span class="op">-</span><span class="op">&gt;</span> <a class="ident" href="../../src/test_crates/main.rs.html#71-74">RustToolchain</a> {
+<span class="kw">fn</span> <span class="ident">get_rust_toolchain</span>() -&gt; <a class="ident" href="../../src/test_crates/main.rs.html#71-74">RustToolchain</a> {
     <span class="kw">let</span> <span class="ident">content</span> <span class="op">=</span> <span class="macro">include_str!</span>(<span class="string">&quot;../../rust-toolchain&quot;</span>);
     <span class="kw">let</span> <span class="ident">rust_toolchain</span>: <a class="ident" href="../../src/test_crates/main.rs.html#66-68">RustToolchainFile</a> <span class="op">=</span>
         <span class="ident">toml::from_str</span>(<a class="ident" href="../../src/test_crates/main.rs.html#77">content</a>).<span class="ident">expect</span>(<span class="string">&quot;failed to parse rust-toolchain file&quot;</span>);
@@ -372,7 +370,7 @@
 }
 
 <span class="doccomment">/// Find the Java home directory</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">find_java_home</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><a class="ident" href="https://doc.rust-lang.org/nightly/std/path/struct.PathBuf.html">PathBuf</a><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">find_java_home</span>() -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><a class="ident" href="https://doc.rust-lang.org/nightly/std/path/struct.PathBuf.html">PathBuf</a><span class="op">&gt;</span> {
     <span class="ident">Command::new</span>(<span class="string">&quot;java&quot;</span>)
         .<span class="ident">arg</span>(<span class="string">&quot;-XshowSettings:properties&quot;</span>)
         .<span class="ident">arg</span>(<span class="string">&quot;-version&quot;</span>)
@@ -393,14 +391,14 @@
 }
 
 <span class="doccomment">/// Collect the directories containing java policy files.</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">collect_java_policies</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><a class="ident" href="https://doc.rust-lang.org/nightly/std/path/struct.PathBuf.html">PathBuf</a><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">collect_java_policies</span>() -&gt; <span class="ident">Vec</span><span class="op">&lt;</span><a class="ident" href="https://doc.rust-lang.org/nightly/std/path/struct.PathBuf.html">PathBuf</a><span class="op">&gt;</span> {
     <span class="ident">glob::glob</span>(<span class="string">&quot;/etc/java-*&quot;</span>)
         .<span class="ident">unwrap</span>()
         .<span class="ident">map</span>(<span class="op">|</span><span class="ident">result</span><span class="op">|</span> <a class="ident" href="../../src/test_crates/main.rs.html#108">result</a>.<span class="ident">unwrap</span>())
         .<span class="ident">collect</span>()
 }
 
-<span class="kw">fn</span> <span class="ident">main</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/error/trait.Error.html">Error</a><span class="op">&gt;</span><span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">main</span>() -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/error/trait.Error.html">Error</a><span class="op">&gt;</span><span class="op">&gt;</span> {
     <span class="ident">color_backtrace::install</span>();
     <a class="ident" href="../../src/test_crates/main.rs.html#31">setup_logs</a>();
 
@@ -574,9 +572,7 @@
     }
 
     <span class="comment">// Panic</span>
-    <span class="kw">if</span> <span class="op">!</span><a class="ident" href="../../src/test_crates/main.rs.html#171">failed_crates</a>.<span class="ident">is_empty</span>() {
-        <span class="macro">panic!</span>(<span class="string">&quot;Failed to verify {} crates&quot;</span>, <a class="ident" href="../../src/test_crates/main.rs.html#171">failed_crates</a>.<span class="ident">len</span>());
-    }
+    <span class="macro">assert!</span>(<a class="ident" href="../../src/test_crates/main.rs.html#171">failed_crates</a>.<span class="ident">is_empty</span>(), <span class="string">&quot;Failed to verify {} crates&quot;</span>, <a class="ident" href="../../src/test_crates/main.rs.html#171">failed_crates</a>.<span class="ident">len</span>());
 
     <span class="prelude-val">Ok</span>(())
 }
