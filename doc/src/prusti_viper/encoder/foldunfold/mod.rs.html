@@ -1631,7 +1631,7 @@
 <span class="kw">use</span> <a class="ident" href="../../../../src/prusti_viper/encoder/foldunfold/mod.rs.html#32"><span class="self">self</span>::path_ctxt</a>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::encoder</span>::{
     <span class="ident">foldunfold</span>::{<a class="ident" href="../../../../src/prusti_viper/encoder/foldunfold/action.rs.html#13-19">action::Action</a>, <a class="ident" href="../../../../src/prusti_viper/encoder/foldunfold/mod.rs.html#30">footprint</a>::<span class="kw-2">*</span>, <a class="ident" href="../../../../src/prusti_viper/encoder/foldunfold/mod.rs.html#33">perm</a>::<span class="kw-2">*</span>, <a class="ident" href="../../../../src/prusti_viper/encoder/foldunfold/mod.rs.html#36">requirements</a>::<span class="kw-2">*</span>, <a class="ident" href="../../../../src/prusti_viper/encoder/foldunfold/semantics.rs.html#42-48">semantics::ApplyOnState</a>},
-    <a class="ident" href="../../../../src/prusti_viper/encoder/encoder.rs.html#59-93">Encoder</a>,
+    <a class="ident" href="../../../../src/prusti_viper/encoder/encoder.rs.html#59-98">Encoder</a>,
 };
 <span class="attribute">#[<span class="ident">rustfmt::skip</span>]</span>
 <span class="kw">use</span> <span class="ident">::log</span>::{<span class="ident">debug</span>, <span class="ident">trace</span>};
@@ -1651,13 +1651,13 @@
 
 <span class="kw">mod</span> <a class="ident" href="../../../../src/prusti_viper/encoder/foldunfold/action.rs.html#7-76">action</a>;
 <span class="kw">mod</span> <a class="ident" href="../../../../src/prusti_viper/encoder/foldunfold/borrows.rs.html#7-144">borrows</a>;
-<span class="kw">mod</span> <a class="ident" href="../../../../src/prusti_viper/encoder/foldunfold/footprint.rs.html#7-270">footprint</a>;
+<span class="kw">mod</span> <a class="ident" href="../../../../src/prusti_viper/encoder/foldunfold/footprint.rs.html#7-272">footprint</a>;
 <span class="kw">mod</span> <a class="ident" href="../../../../src/prusti_viper/encoder/foldunfold/log.rs.html#7-211">log</a>;
 <span class="kw">mod</span> <a class="ident" href="../../../../src/prusti_viper/encoder/foldunfold/path_ctxt.rs.html#7-932">path_ctxt</a>;
 <span class="kw">mod</span> <a class="ident" href="../../../../src/prusti_viper/encoder/foldunfold/perm.rs.html#7-262">perm</a>;
 <span class="kw">mod</span> <a class="ident" href="../../../../src/prusti_viper/encoder/foldunfold/places_utils.rs.html#7-112">places_utils</a>;
 <span class="kw">mod</span> <a class="ident" href="../../../../src/prusti_viper/encoder/foldunfold/process_expire_borrows.rs.html#1-597">process_expire_borrows</a>;
-<span class="kw">mod</span> <a class="ident" href="../../../../src/prusti_viper/encoder/foldunfold/requirements.rs.html#7-423">requirements</a>;
+<span class="kw">mod</span> <a class="ident" href="../../../../src/prusti_viper/encoder/foldunfold/requirements.rs.html#7-427">requirements</a>;
 <span class="kw">mod</span> <a class="ident" href="../../../../src/prusti_viper/encoder/foldunfold/semantics.rs.html#7-517">semantics</a>;
 <span class="kw">mod</span> <a class="ident" href="../../../../src/prusti_viper/encoder/foldunfold/state.rs.html#7-686">state</a>;
 
@@ -2066,7 +2066,7 @@
         <span class="ident">_final_pctxt</span>: <span class="kw-2">&amp;</span>[<span class="prelude-ty">Option</span><span class="op">&lt;</span><a class="ident" href="../../../../src/prusti_viper/encoder/foldunfold/path_ctxt.rs.html#20-28">PathCtxt</a><span class="op">&gt;</span>],
     ) {
         <span class="kw">if</span> <a class="self" href="../../../../src/prusti_viper/encoder/foldunfold/mod.rs.html#439">self</a>.<span class="ident">dump_debug_info</span> {
-            <span class="kw">let</span> <span class="ident">source_path</span> <span class="op">=</span> <a class="self" href="../../../../src/prusti_viper/encoder/foldunfold/mod.rs.html#439">self</a>.<span class="ident">encoder</span>.<a class="ident" href="../../../../src/prusti_viper/encoder/encoder.rs.html#201">env</a>().<span class="ident">source_path</span>();
+            <span class="kw">let</span> <span class="ident">source_path</span> <span class="op">=</span> <a class="self" href="../../../../src/prusti_viper/encoder/foldunfold/mod.rs.html#439">self</a>.<span class="ident">encoder</span>.<a class="ident" href="../../../../src/prusti_viper/encoder/encoder.rs.html#207">env</a>().<span class="ident">source_path</span>();
             <span class="kw">let</span> <span class="ident">source_filename</span> <span class="op">=</span> <a class="ident" href="../../../../src/prusti_viper/encoder/foldunfold/mod.rs.html#445">source_path</a>.<span class="ident">file_name</span>().<span class="ident">unwrap</span>().<span class="ident">to_str</span>().<span class="ident">unwrap</span>();
             <span class="kw">let</span> <span class="ident">method_name</span> <span class="op">=</span> <a class="ident" href="../../../../src/prusti_viper/encoder/foldunfold/mod.rs.html#440">new_cfg</a>.<span class="ident">name</span>();
             <span class="ident">report::log::report_with_writer</span>(
@@ -3242,5 +3242,5 @@
     }
 }
 </code></pre></div>
-</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../../../" data-current-crate="prusti_viper" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.60.0-nightly (498eeb72f 2022-01-31)" ></div>
+</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../../../" data-current-crate="prusti_viper" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.60.0-nightly (c5c610aad 2022-02-14)" ></div>
 </body></html>
