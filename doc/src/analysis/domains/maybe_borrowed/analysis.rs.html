@@ -137,7 +137,7 @@
 
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <a class="ident" href="../../../../src/analysis/abstract_interpretation/fixpoint_engine.rs.html#17">abstract_interpretation::AnalysisResult</a>, <a class="ident" href="../../../../src/analysis/domains/maybe_borrowed/state.rs.html#12-15">domains::MaybeBorrowedState</a>,
-    <a class="ident" href="../../../../src/analysis/mir_utils.rs.html#319">mir_utils::get_blocked_place</a>, <a class="ident" href="../../../../src/analysis/analysis_error.rs.html#11-19">AnalysisError</a>, <a class="ident" href="../../../../src/analysis/pointwise_state.rs.html#13-19">PointwiseState</a>,
+    <a class="ident" href="../../../../src/analysis/mir_utils.rs.html#355">mir_utils::get_blocked_place</a>, <a class="ident" href="../../../../src/analysis/analysis_error.rs.html#11-19">AnalysisError</a>, <a class="ident" href="../../../../src/analysis/pointwise_state.rs.html#13-19">PointwiseState</a>,
 };
 <span class="kw">use</span> <span class="ident">log</span>::{<span class="ident">error</span>, <span class="ident">trace</span>};
 <span class="kw">use</span> <span class="ident">rustc_borrowck</span>::{<span class="ident">consumers::RichLocation</span>, <span class="ident">BodyWithBorrowckFacts</span>};
@@ -198,7 +198,7 @@
                                 <a class="ident" href="../../../../src/analysis/domains/maybe_borrowed/analysis.rs.html#61">borrowed_place</a>,
                             );
                             <span class="kw">let</span> <span class="ident">blocked_place</span> <span class="op">=</span>
-                                <a class="ident" href="../../../../src/analysis/mir_utils.rs.html#319">get_blocked_place</a>(<a class="self" href="../../../../src/analysis/domains/maybe_borrowed/analysis.rs.html#30">self</a>.<span class="ident">tcx</span>, (<span class="kw-2">*</span><a class="ident" href="../../../../src/analysis/domains/maybe_borrowed/analysis.rs.html#61">borrowed_place</a>).<a class="ident" href="https://doc.rust-lang.org/nightly/core/convert/trait.Into.html">into</a>());
+                                <a class="ident" href="../../../../src/analysis/mir_utils.rs.html#355">get_blocked_place</a>(<a class="self" href="../../../../src/analysis/domains/maybe_borrowed/analysis.rs.html#30">self</a>.<span class="ident">tcx</span>, (<span class="kw-2">*</span><a class="ident" href="../../../../src/analysis/domains/maybe_borrowed/analysis.rs.html#61">borrowed_place</a>).<a class="ident" href="https://doc.rust-lang.org/nightly/core/convert/trait.Into.html">into</a>());
                             <span class="macro">trace!</span>(<span class="string">&quot;      Blocking {:?}: {:?}&quot;</span>, <a class="ident" href="../../../../src/analysis/domains/maybe_borrowed/analysis.rs.html#61">borrow_kind</a>, <a class="ident" href="../../../../src/analysis/domains/maybe_borrowed/analysis.rs.html#69">blocked_place</a>);
                             <span class="kw">match</span> <a class="ident" href="../../../../src/analysis/domains/maybe_borrowed/analysis.rs.html#61">borrow_kind</a> {
                                 <span class="ident">mir::BorrowKind::Shared</span> =&gt; {
@@ -229,7 +229,7 @@
 
         <span class="comment">// Set state_after_block</span>
         <span class="kw">for</span> (<span class="ident">block</span>, <span class="ident">block_data</span>) <span class="kw">in</span> <a class="ident" href="../../../../src/analysis/domains/maybe_borrowed/analysis.rs.html#32">body</a>.<span class="ident">basic_blocks</span>().<span class="ident">iter_enumerated</span>() {
-            <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="ident">successor</span> <span class="kw">in</span> <a class="ident" href="../../../../src/analysis/domains/maybe_borrowed/analysis.rs.html#100">block_data</a>.<span class="ident">terminator</span>().<span class="ident">successors</span>() {
+            <span class="kw">for</span> <span class="ident">successor</span> <span class="kw">in</span> <a class="ident" href="../../../../src/analysis/domains/maybe_borrowed/analysis.rs.html#100">block_data</a>.<span class="ident">terminator</span>().<span class="ident">successors</span>() {
                 <span class="kw">let</span> <span class="ident">state</span> <span class="op">=</span> <a class="ident" href="../../../../src/analysis/domains/maybe_borrowed/analysis.rs.html#48">analysis_state</a>
                     .<a class="ident" href="../../../../src/analysis/pointwise_state.rs.html#93">lookup_before</a>(<a class="ident" href="https://doc.rust-lang.org/nightly/nightly-rustc/rustc_middle/mir/struct.Location.html">mir::Location</a> {
                         <span class="ident">block</span>: <a class="ident" href="../../../../src/analysis/domains/maybe_borrowed/analysis.rs.html#101">successor</a>,
@@ -254,5 +254,5 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../../" data-current-crate="analysis" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.63.0-nightly (42e1761c7 2022-05-15)" ></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../../" data-current-crate="analysis" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.63.0-nightly (1f34da9ec 2022-06-14)" ></div>
 </body></html>
