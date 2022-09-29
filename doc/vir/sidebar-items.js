@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["common",""],["converter",""],["high",""],["legacy",""],["low",""],["middle",""],["polymorphic",""],["snapshot",""]]});
+window.SIDEBAR_ITEMS = {"macro":[["enum_predicate",""]],"mod":[["common",""],["converter",""],["high",""],["legacy",""],["low",""],["middle",""],["polymorphic",""],["typed",""]]};
