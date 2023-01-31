@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `prusti-contracts/prusti-specs/src/specifications/preparser.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>preparser.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-3d4cb87af9468701.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-1469fca9efc07bcb.css"><link rel="stylesheet" disabled href="../../../static.files/dark-e9b7e5d8ba0dc980.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-0c1cf144240c9f40.css"><script id="default-settings" ></script><script src="../../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../../static.files/source-script-5cf2e01a42cc9858.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-799a64abec831f72.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><div class="width-limiter"><nav class="sub"><a class="sub-logo-container" href="../../../prusti_specs/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `prusti-contracts/prusti-specs/src/specifications/preparser.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>preparser.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-52c5db6f6f352e54.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-4743e13df3dfe8c4.css"><link rel="stylesheet" disabled href="../../../static.files/dark-0e1b889528bd466b.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-65289d5d067c7c66.css"><script id="default-settings" ></script><script src="../../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-d2686a620d99aad7.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../prusti_specs/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1024,60 +1024,168 @@
 <a href="#1024" id="1024">1024</a>
 <a href="#1025" id="1025">1025</a>
 <a href="#1026" id="1026">1026</a>
+<a href="#1027" id="1027">1027</a>
+<a href="#1028" id="1028">1028</a>
+<a href="#1029" id="1029">1029</a>
+<a href="#1030" id="1030">1030</a>
+<a href="#1031" id="1031">1031</a>
+<a href="#1032" id="1032">1032</a>
+<a href="#1033" id="1033">1033</a>
+<a href="#1034" id="1034">1034</a>
+<a href="#1035" id="1035">1035</a>
+<a href="#1036" id="1036">1036</a>
+<a href="#1037" id="1037">1037</a>
+<a href="#1038" id="1038">1038</a>
+<a href="#1039" id="1039">1039</a>
+<a href="#1040" id="1040">1040</a>
+<a href="#1041" id="1041">1041</a>
+<a href="#1042" id="1042">1042</a>
+<a href="#1043" id="1043">1043</a>
+<a href="#1044" id="1044">1044</a>
+<a href="#1045" id="1045">1045</a>
+<a href="#1046" id="1046">1046</a>
+<a href="#1047" id="1047">1047</a>
+<a href="#1048" id="1048">1048</a>
+<a href="#1049" id="1049">1049</a>
+<a href="#1050" id="1050">1050</a>
+<a href="#1051" id="1051">1051</a>
+<a href="#1052" id="1052">1052</a>
+<a href="#1053" id="1053">1053</a>
+<a href="#1054" id="1054">1054</a>
+<a href="#1055" id="1055">1055</a>
+<a href="#1056" id="1056">1056</a>
+<a href="#1057" id="1057">1057</a>
+<a href="#1058" id="1058">1058</a>
+<a href="#1059" id="1059">1059</a>
+<a href="#1060" id="1060">1060</a>
+<a href="#1061" id="1061">1061</a>
+<a href="#1062" id="1062">1062</a>
+<a href="#1063" id="1063">1063</a>
+<a href="#1064" id="1064">1064</a>
+<a href="#1065" id="1065">1065</a>
+<a href="#1066" id="1066">1066</a>
+<a href="#1067" id="1067">1067</a>
+<a href="#1068" id="1068">1068</a>
+<a href="#1069" id="1069">1069</a>
+<a href="#1070" id="1070">1070</a>
+<a href="#1071" id="1071">1071</a>
+<a href="#1072" id="1072">1072</a>
+<a href="#1073" id="1073">1073</a>
+<a href="#1074" id="1074">1074</a>
+<a href="#1075" id="1075">1075</a>
+<a href="#1076" id="1076">1076</a>
+<a href="#1077" id="1077">1077</a>
+<a href="#1078" id="1078">1078</a>
+<a href="#1079" id="1079">1079</a>
+<a href="#1080" id="1080">1080</a>
+<a href="#1081" id="1081">1081</a>
+<a href="#1082" id="1082">1082</a>
+<a href="#1083" id="1083">1083</a>
+<a href="#1084" id="1084">1084</a>
+<a href="#1085" id="1085">1085</a>
+<a href="#1086" id="1086">1086</a>
+<a href="#1087" id="1087">1087</a>
+<a href="#1088" id="1088">1088</a>
+<a href="#1089" id="1089">1089</a>
+<a href="#1090" id="1090">1090</a>
+<a href="#1091" id="1091">1091</a>
+<a href="#1092" id="1092">1092</a>
+<a href="#1093" id="1093">1093</a>
+<a href="#1094" id="1094">1094</a>
+<a href="#1095" id="1095">1095</a>
+<a href="#1096" id="1096">1096</a>
+<a href="#1097" id="1097">1097</a>
+<a href="#1098" id="1098">1098</a>
+<a href="#1099" id="1099">1099</a>
+<a href="#1100" id="1100">1100</a>
+<a href="#1101" id="1101">1101</a>
+<a href="#1102" id="1102">1102</a>
+<a href="#1103" id="1103">1103</a>
+<a href="#1104" id="1104">1104</a>
+<a href="#1105" id="1105">1105</a>
+<a href="#1106" id="1106">1106</a>
+<a href="#1107" id="1107">1107</a>
+<a href="#1108" id="1108">1108</a>
+<a href="#1109" id="1109">1109</a>
+<a href="#1110" id="1110">1110</a>
+<a href="#1111" id="1111">1111</a>
+<a href="#1112" id="1112">1112</a>
+<a href="#1113" id="1113">1113</a>
+<a href="#1114" id="1114">1114</a>
+<a href="#1115" id="1115">1115</a>
+<a href="#1116" id="1116">1116</a>
+<a href="#1117" id="1117">1117</a>
+<a href="#1118" id="1118">1118</a>
+<a href="#1119" id="1119">1119</a>
+<a href="#1120" id="1120">1120</a>
+<a href="#1121" id="1121">1121</a>
+<a href="#1122" id="1122">1122</a>
+<a href="#1123" id="1123">1123</a>
+<a href="#1124" id="1124">1124</a>
+<a href="#1125" id="1125">1125</a>
+<a href="#1126" id="1126">1126</a>
+<a href="#1127" id="1127">1127</a>
 </pre><pre class="rust"><code><span class="doccomment">/// The preparser processes Prusti syntax into Rust syntax.
-
-</span><span class="kw">use </span>proc_macro2::{<a href="../../../proc_macro2/struct.Span.html">Span</a>, <a href="../../../proc_macro2/struct.TokenStream.html">TokenStream</a>, <a href="../../../proc_macro2/enum.TokenTree.html">TokenTree</a>, <a href="../../../proc_macro2/enum.Delimiter.html">Delimiter</a>};
-<span class="kw">use </span><a href="https://doc.rust-lang.org/nightly/alloc/collections/vec_deque/struct.VecDeque.html">std::collections::VecDeque</a>;
-<span class="kw">use </span>quote::{<a href="../../../quote/to_tokens/trait.ToTokens.html">ToTokens</a>, <a href="../../../quote/macro.quote.html">quote</a>, <a href="../../../quote/macro.quote_spanned.html">quote_spanned</a>};
-<span class="kw">use </span><a href="../../../proc_macro2/struct.Punct.html">proc_macro2::Punct</a>;
-<span class="kw">use </span><a href="../../../proc_macro2/enum.Spacing.html">proc_macro2::Spacing</a>::<span class="kw-2">*</span>;
-<span class="kw">use </span>syn::{parse::{<a href="../../../syn/parse/trait.Parse.html">Parse</a>, <a href="../../../syn/parse/type.ParseStream.html">ParseStream</a>}, <a href="../../../syn/spanned/trait.Spanned.html">spanned::Spanned</a>};
+</span><span class="kw">use </span>proc_macro2::{Delimiter, Span, TokenStream, TokenTree};
+<span class="kw">use </span>proc_macro2::{Punct, Spacing::<span class="kw-2">*</span>};
+<span class="kw">use </span>quote::{quote, quote_spanned, ToTokens};
+<span class="kw">use </span>std::collections::VecDeque;
+<span class="kw">use </span>syn::{
+    parse::{Parse, ParseStream},
+    spanned::Spanned,
+};
 
 <span class="doccomment">/// The representation of an argument to a quantifier (for example `a: i32`)
 </span><span class="attr">#[derive(Debug, Clone)]
 </span><span class="kw">pub struct </span>Arg {
-    <span class="kw">pub </span>name: <a href="../../../proc_macro2/struct.Ident.html">syn::Ident</a>,
-    <span class="kw">pub </span>typ: <a href="../../../syn/ty/enum.Type.html">syn::Type</a>
+    <span class="kw">pub </span>name: syn::Ident,
+    <span class="kw">pub </span>typ: syn::Type,
 }
 
-<span class="kw">pub fn </span>parse_prusti(tokens: <a href="../../../proc_macro2/struct.TokenStream.html">TokenStream</a>) -&gt; syn::Result&lt;<a href="../../../proc_macro2/struct.TokenStream.html">TokenStream</a>&gt; {
+<span class="kw">pub fn </span>parse_prusti(tokens: TokenStream) -&gt; syn::Result&lt;TokenStream&gt; {
     <span class="kw">let </span>parsed = PrustiTokenStream::new(tokens).parse()<span class="question-mark">?</span>;
     <span class="comment">// to make sure we catch errors in the Rust syntax early (and with the
     // correct spans), we try to parse the resulting stream using syn here
     </span>syn::parse2::&lt;syn::Expr&gt;(parsed.clone())<span class="question-mark">?</span>;
-    <span class="prelude-val">Ok</span>(<a href="#18">parsed</a>)
+    <span class="prelude-val">Ok</span>(parsed)
 }
-<span class="kw">pub fn </span>parse_prusti_pledge(tokens: <a href="../../../proc_macro2/struct.TokenStream.html">TokenStream</a>) -&gt; syn::Result&lt;<a href="../../../proc_macro2/struct.TokenStream.html">TokenStream</a>&gt; {
+<span class="kw">pub fn </span>parse_prusti_pledge(tokens: TokenStream) -&gt; syn::Result&lt;TokenStream&gt; {
     <span class="comment">// TODO: pledges with reference that is not &quot;result&quot; are not supported;
     // for this reason we assert here that the reference (if there is any) is &quot;result&quot;
     // then return the RHS only
     </span><span class="kw">let </span>(reference, rhs) = PrustiTokenStream::new(tokens).parse_pledge()<span class="question-mark">?</span>;
-    <span class="kw">if let </span><span class="prelude-val">Some</span>(reference) = <a href="#28">reference</a> {
+    <span class="kw">if let </span><span class="prelude-val">Some</span>(reference) = reference {
         <span class="kw">if </span>reference.to_string() != <span class="string">&quot;result&quot; </span>{
-            <span class="kw">return </span><a href="#80">err</a>(<a href="#29">reference</a>.<a href="../../../syn/spanned/trait.Spanned.html">span</a>(), <span class="string">&quot;reference of after_expiry must be \&quot;result\&quot;&quot;</span>);
+            <span class="kw">return </span>err(
+                reference.span(),
+                <span class="string">&quot;reference of after_expiry must be \&quot;result\&quot;&quot;</span>,
+            );
         }
     }
     syn::parse2::&lt;syn::Expr&gt;(rhs.clone())<span class="question-mark">?</span>;
-    <span class="prelude-val">Ok</span>(<a href="#28">rhs</a>)
+    <span class="prelude-val">Ok</span>(rhs)
 }
 
-<span class="kw">pub fn </span>parse_prusti_assert_pledge(tokens: <a href="../../../proc_macro2/struct.TokenStream.html">TokenStream</a>) -&gt; syn::Result&lt;(<a href="../../../proc_macro2/struct.TokenStream.html">TokenStream</a>, <a href="../../../proc_macro2/struct.TokenStream.html">TokenStream</a>)&gt; {
+<span class="kw">pub fn </span>parse_prusti_assert_pledge(tokens: TokenStream) -&gt; syn::Result&lt;(TokenStream, TokenStream)&gt; {
     <span class="comment">// TODO: pledges with reference that is not &quot;result&quot; are not supported;
     // for this reason we assert here that the reference (if there is any) is &quot;result&quot;
     // then return the RHS only
     </span><span class="kw">let </span>(reference, lhs, rhs) = PrustiTokenStream::new(tokens).parse_assert_pledge()<span class="question-mark">?</span>;
-    <span class="kw">if let </span><span class="prelude-val">Some</span>(reference) = <a href="#42">reference</a> {
+    <span class="kw">if let </span><span class="prelude-val">Some</span>(reference) = reference {
         <span class="kw">if </span>reference.to_string() != <span class="string">&quot;result&quot; </span>{
-            <span class="kw">return </span><a href="#80">err</a>(<a href="#43">reference</a>.<a href="../../../syn/spanned/trait.Spanned.html">span</a>(), <span class="string">&quot;reference of assert_on_expiry must be \&quot;result\&quot;&quot;</span>);
+            <span class="kw">return </span>err(
+                reference.span(),
+                <span class="string">&quot;reference of assert_on_expiry must be \&quot;result\&quot;&quot;</span>,
+            );
         }
     }
     syn::parse2::&lt;syn::Expr&gt;(lhs.clone())<span class="question-mark">?</span>;
     syn::parse2::&lt;syn::Expr&gt;(rhs.clone())<span class="question-mark">?</span>;
-    <span class="prelude-val">Ok</span>((<a href="#42">lhs</a>, <a href="#42">rhs</a>))
+    <span class="prelude-val">Ok</span>((lhs, rhs))
 }
 
-<span class="kw">pub fn </span>parse_ghost_constraint(tokens: <a href="../../../proc_macro2/struct.TokenStream.html">TokenStream</a>) -&gt; syn::Result&lt;<a href="#495">GhostConstraint</a>&gt; {
-    syn::parse2(<a href="#53">tokens</a>)
+<span class="kw">pub fn </span>parse_type_cond_spec(tokens: TokenStream) -&gt; syn::Result&lt;TypeCondSpecRefinement&gt; {
+    syn::parse2(tokens)
 }
 
 <span class="comment">/*
@@ -1098,27 +1206,27 @@ Preparsing consists of two stages:
 
 </span><span class="doccomment">/// The preparser reuses [syn::Result] to integrate with the rest of the specs
 /// library, even though syn is not used here.
-</span><span class="kw">fn </span>error(span: <a href="../../../proc_macro2/struct.Span.html">Span</a>, msg: <span class="kw-2">&amp;</span><a href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>) -&gt; <a href="../../../syn/error/struct.Error.html">syn::Error</a> {
-    syn::Error::new(<a href="#75">span</a>, <a href="#75">msg</a>)
+</span><span class="kw">fn </span>error(span: Span, msg: <span class="kw-2">&amp;</span>str) -&gt; syn::Error {
+    syn::Error::new(span, msg)
 }
 
 <span class="doccomment">/// Same as `error`, conveniently packaged as `syn::Result::Err`.
-</span><span class="kw">fn </span>err&lt;T&gt;(span: <a href="../../../proc_macro2/struct.Span.html">Span</a>, msg: <span class="kw-2">&amp;</span><a href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>) -&gt; syn::Result&lt;T&gt; {
-    <span class="prelude-val">Err</span>(<a href="#75">error</a>(<a href="#80">span</a>, <a href="#80">msg</a>))
+</span><span class="kw">fn </span>err&lt;T&gt;(span: Span, msg: <span class="kw-2">&amp;</span>str) -&gt; syn::Result&lt;T&gt; {
+    <span class="prelude-val">Err</span>(error(span, msg))
 }
 
 <span class="attr">#[derive(Debug, Clone)]
 </span><span class="kw">struct </span>PrustiTokenStream {
-    tokens: VecDeque&lt;<a href="#573">PrustiToken</a>&gt;,
-    source_span: <a href="../../../proc_macro2/struct.Span.html">Span</a>,
+    tokens: VecDeque&lt;PrustiToken&gt;,
+    source_span: Span,
     <span class="comment">// TODO: can we somehow update the span after popping stuff?
 </span>}
 
-<span class="kw">impl </span><a href="#85">PrustiTokenStream</a> {
+<span class="kw">impl </span>PrustiTokenStream {
     <span class="doccomment">/// Constructs a stream of Prusti tokens from a stream of Rust tokens.
-    </span><span class="kw">fn </span>new(source: <a href="../../../proc_macro2/struct.TokenStream.html">TokenStream</a>) -&gt; <span class="self">Self </span>{
-        <span class="kw">let </span>source_span = <a href="#93">source</a>.<a href="../../../syn/spanned/trait.Spanned.html">span</a>();
-        <span class="kw">let </span>source = <a href="#93">source</a>.<a href="https://doc.rust-lang.org/nightly/core/iter/traits/collect/trait.IntoIterator.html">into_iter</a>().<a href="https://doc.rust-lang.org/nightly/core/iter/traits/iterator/trait.Iterator.html">collect</a>::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
+    </span><span class="kw">fn </span>new(source: TokenStream) -&gt; <span class="self">Self </span>{
+        <span class="kw">let </span>source_span = source.span();
+        <span class="kw">let </span>source = source.into_iter().collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
 
         <span class="kw">let </span><span class="kw-2">mut </span>pos = <span class="number">0</span>;
         <span class="kw">let </span><span class="kw-2">mut </span>tokens = VecDeque::new();
@@ -1185,11 +1293,14 @@ Preparsing consists of two stages:
                 (token, <span class="kw">_</span>, <span class="kw">_</span>) =&gt; PrustiToken::Token(token.clone()),
             });
         }
-        <span class="self">Self </span>{ <a href="#98">tokens</a>, <a href="#94">source_span</a> }
+        <span class="self">Self </span>{
+            tokens,
+            source_span,
+        }
     }
 
-    <span class="kw">fn </span>is_empty(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a> {
-        <a class="self" href="#165">self</a>.tokens.is_empty()
+    <span class="kw">fn </span>is_empty(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+        <span class="self">self</span>.tokens.is_empty()
     }
 
     <span class="kw">fn </span>parse_rest&lt;T, F&gt;(<span class="kw-2">mut </span><span class="self">self</span>, f: F) -&gt; syn::Result&lt;T&gt;
@@ -1198,69 +1309,68 @@ Preparsing consists of two stages:
     {
         <span class="kw">let </span>result = f(<span class="kw-2">&amp;mut </span><span class="self">self</span>)<span class="question-mark">?</span>;
         <span class="kw">if </span>!<span class="self">self</span>.is_empty() {
-            <span class="kw">let </span>start = <a class="self" href="#169">self</a>.tokens.front().expect(<span class="string">&quot;unreachable&quot;</span>).<a href="#723">span</a>();
-            <span class="kw">let </span>end = <a class="self" href="#169">self</a>.tokens.back().expect(<span class="string">&quot;unreachable&quot;</span>).<a href="#723">span</a>();
-            <span class="kw">let </span>span = <a href="#907">join_spans</a>(<a href="#175">start</a>, <a href="#176">end</a>);
-            <span class="kw">return </span><a href="#80">err</a>(<a href="#177">span</a>, <span class="string">&quot;unexpected extra tokens&quot;</span>);
+            <span class="kw">let </span>start = <span class="self">self</span>.tokens.front().expect(<span class="string">&quot;unreachable&quot;</span>).span();
+            <span class="kw">let </span>end = <span class="self">self</span>.tokens.back().expect(<span class="string">&quot;unreachable&quot;</span>).span();
+            <span class="kw">let </span>span = join_spans(start, end);
+            <span class="kw">return </span>err(span, <span class="string">&quot;unexpected extra tokens&quot;</span>);
         }
-        <span class="prelude-val">Ok</span>(<a href="#173">result</a>)
+        <span class="prelude-val">Ok</span>(result)
     }
 
     <span class="doccomment">/// Processes a Prusti token stream back into Rust syntax.
     /// Prusti-specific syntax is allowed and translated.
-    </span><span class="kw">fn </span>parse(<span class="kw-2">mut </span><span class="self">self</span>) -&gt; syn::Result&lt;<a href="../../../proc_macro2/struct.TokenStream.html">TokenStream</a>&gt; {
-        <a class="self" href="#185">self</a>.<a href="#245">expr_bp</a>(<span class="number">0</span>)
+    </span><span class="kw">fn </span>parse(<span class="kw-2">mut </span><span class="self">self</span>) -&gt; syn::Result&lt;TokenStream&gt; {
+        <span class="self">self</span>.expr_bp(<span class="number">0</span>)
     }
 
     <span class="doccomment">/// Processes a Prusti token stream back into Rust syntax.
     /// Prusti-specific syntax is not allowed and will raise an error.
-    </span><span class="kw">fn </span>parse_rust_only(<span class="self">self</span>) -&gt; syn::Result&lt;<a href="../../../proc_macro2/struct.TokenStream.html">TokenStream</a>&gt; {
-        <span class="prelude-val">Ok</span>(TokenStream::from_iter(<span class="self">self</span>.tokens
-            .into_iter()
-            .map(|token| <span class="kw">match </span>token {
-                PrustiToken::Group(<span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">box </span>stream) =&gt; stream.parse_rust_only(),
-                PrustiToken::Token(tree) =&gt; <span class="prelude-val">Ok</span>(tree.to_token_stream()),
-                PrustiToken::BinOp(span, PrustiBinaryOp::Rust(op)) =&gt; <span class="prelude-val">Ok</span>(op.to_tokens(span)),
-                <span class="kw">_ </span>=&gt; err(token.span(), <span class="string">&quot;unexpected Prusti syntax&quot;</span>),
-            })
-            .collect::&lt;<span class="prelude-ty">Result</span>&lt;Vec&lt;<span class="kw">_</span>&gt;, <span class="kw">_</span>&gt;&gt;()<span class="question-mark">?
-            </span>.<a href="https://doc.rust-lang.org/nightly/core/iter/traits/collect/trait.IntoIterator.html">into_iter</a>()))
+    </span><span class="kw">fn </span>parse_rust_only(<span class="self">self</span>) -&gt; syn::Result&lt;TokenStream&gt; {
+        <span class="prelude-val">Ok</span>(TokenStream::from_iter(
+            <span class="self">self</span>.tokens
+                .into_iter()
+                .map(|token| <span class="kw">match </span>token {
+                    PrustiToken::Group(<span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">box </span>stream) =&gt; stream.parse_rust_only(),
+                    PrustiToken::Token(tree) =&gt; <span class="prelude-val">Ok</span>(tree.to_token_stream()),
+                    PrustiToken::BinOp(span, PrustiBinaryOp::Rust(op)) =&gt; <span class="prelude-val">Ok</span>(op.to_tokens(span)),
+                    <span class="kw">_ </span>=&gt; err(token.span(), <span class="string">&quot;unexpected Prusti syntax&quot;</span>),
+                })
+                .collect::&lt;<span class="prelude-ty">Result</span>&lt;Vec&lt;<span class="kw">_</span>&gt;, <span class="kw">_</span>&gt;&gt;()<span class="question-mark">?
+                </span>.into_iter(),
+        ))
     }
 
     <span class="doccomment">/// Processes a Prusti token stream for a pledge, in the form `a =&gt; b` or
     /// just `b`.
-    </span><span class="kw">fn </span>parse_pledge(<span class="self">self</span>) -&gt; syn::Result&lt;(
-        <span class="prelude-ty">Option</span>&lt;<a href="../../../proc_macro2/struct.TokenStream.html">TokenStream</a>&gt;,
-        <a href="../../../proc_macro2/struct.TokenStream.html">TokenStream</a>
-    )&gt; {
-        <span class="kw">let </span><span class="kw-2">mut </span>pledge_ops = <a class="self" href="#206">self</a>.<a href="#438-442">split</a>(<a href="#808">PrustiBinaryOp::Rust</a>(<a href="#865">RustOp::Arrow</a>), <span class="bool-val">false</span>);
+    </span><span class="kw">fn </span>parse_pledge(<span class="self">self</span>) -&gt; syn::Result&lt;(<span class="prelude-ty">Option</span>&lt;TokenStream&gt;, TokenStream)&gt; {
+        <span class="kw">let </span><span class="kw-2">mut </span>pledge_ops = <span class="self">self</span>.split(PrustiBinaryOp::Rust(RustOp::Arrow), <span class="bool-val">false</span>);
         <span class="kw">if </span>pledge_ops.len() == <span class="number">1 </span>{
             <span class="prelude-val">Ok</span>((<span class="prelude-val">None</span>, pledge_ops[<span class="number">0</span>].expr_bp(<span class="number">0</span>)<span class="question-mark">?</span>))
         } <span class="kw">else if </span>pledge_ops.len() == <span class="number">2 </span>{
             <span class="prelude-val">Ok</span>((<span class="prelude-val">Some</span>(pledge_ops[<span class="number">0</span>].expr_bp(<span class="number">0</span>)<span class="question-mark">?</span>), pledge_ops[<span class="number">1</span>].expr_bp(<span class="number">0</span>)<span class="question-mark">?</span>))
         } <span class="kw">else </span>{
-            <a href="#80">err</a>(Span::call_site(), <span class="string">&quot;too many arrows in after_expiry&quot;</span>)
+            err(Span::call_site(), <span class="string">&quot;too many arrows in after_expiry&quot;</span>)
         }
     }
 
     <span class="doccomment">/// Processes a Prusti token stream for an assert pledge, in the form `a =&gt;
     /// b, c` or `b, c`.
-    </span><span class="kw">fn </span>parse_assert_pledge(<span class="self">self</span>) -&gt; syn::Result&lt;(
-        <span class="prelude-ty">Option</span>&lt;<a href="../../../proc_macro2/struct.TokenStream.html">TokenStream</a>&gt;,
-        <a href="../../../proc_macro2/struct.TokenStream.html">TokenStream</a>,
-        <a href="../../../proc_macro2/struct.TokenStream.html">TokenStream</a>
-    )&gt; {
-        <span class="kw">let </span><span class="kw-2">mut </span>pledge_ops = <a class="self" href="#222">self</a>.<a href="#438-442">split</a>(<a href="#808">PrustiBinaryOp::Rust</a>(<a href="#865">RustOp::Arrow</a>), <span class="bool-val">false</span>);
-        <span class="kw">let </span>(reference, body) = <span class="kw">match </span>(<a href="#227">pledge_ops</a>.pop(), <a href="#227">pledge_ops</a>.pop(), <a href="#227">pledge_ops</a>.pop()) {
-            (<span class="prelude-val">Some</span>(body), <span class="prelude-val">None</span>, <span class="kw">_</span>) =&gt; (<span class="prelude-val">None</span>, <a href="#229">body</a>),
-            (<span class="prelude-val">Some</span>(body), <span class="prelude-val">Some</span>(<span class="kw-2">mut </span>reference), <span class="prelude-val">None</span>) =&gt; (<span class="prelude-val">Some</span>(reference.expr_bp(<span class="number">0</span>)<span class="question-mark">?</span>), <a href="#230">body</a>),
-            <span class="kw">_ </span>=&gt; <span class="kw">return </span><a href="#80">err</a>(Span::call_site(), <span class="string">&quot;too many arrows in assert_on_expiry&quot;</span>),
+    </span><span class="kw">fn </span>parse_assert_pledge(<span class="self">self</span>) -&gt; syn::Result&lt;(<span class="prelude-ty">Option</span>&lt;TokenStream&gt;, TokenStream, TokenStream)&gt; {
+        <span class="kw">let </span><span class="kw-2">mut </span>pledge_ops = <span class="self">self</span>.split(PrustiBinaryOp::Rust(RustOp::Arrow), <span class="bool-val">false</span>);
+        <span class="kw">let </span>(reference, body) = <span class="kw">match </span>(pledge_ops.pop(), pledge_ops.pop(), pledge_ops.pop()) {
+            (<span class="prelude-val">Some</span>(body), <span class="prelude-val">None</span>, <span class="kw">_</span>) =&gt; (<span class="prelude-val">None</span>, body),
+            (<span class="prelude-val">Some</span>(body), <span class="prelude-val">Some</span>(<span class="kw-2">mut </span>reference), <span class="prelude-val">None</span>) =&gt; (<span class="prelude-val">Some</span>(reference.expr_bp(<span class="number">0</span>)<span class="question-mark">?</span>), body),
+            <span class="kw">_ </span>=&gt; <span class="kw">return </span>err(Span::call_site(), <span class="string">&quot;too many arrows in assert_on_expiry&quot;</span>),
         };
-        <span class="kw">let </span><span class="kw-2">mut </span>body_parts = <a href="#228">body</a>.<a href="#438-442">split</a>(<a href="#808">PrustiBinaryOp::Rust</a>(<a href="#866">RustOp::Comma</a>), <span class="bool-val">false</span>);
+        <span class="kw">let </span><span class="kw-2">mut </span>body_parts = body.split(PrustiBinaryOp::Rust(RustOp::Comma), <span class="bool-val">false</span>);
         <span class="kw">if </span>body_parts.len() == <span class="number">2 </span>{
-            <span class="prelude-val">Ok</span>((<a href="#228">reference</a>, body_parts[<span class="number">0</span>].expr_bp(<span class="number">0</span>)<span class="question-mark">?</span>, body_parts[<span class="number">1</span>].expr_bp(<span class="number">0</span>)<span class="question-mark">?</span>))
+            <span class="prelude-val">Ok</span>((
+                reference,
+                body_parts[<span class="number">0</span>].expr_bp(<span class="number">0</span>)<span class="question-mark">?</span>,
+                body_parts[<span class="number">1</span>].expr_bp(<span class="number">0</span>)<span class="question-mark">?</span>,
+            ))
         } <span class="kw">else </span>{
-            <a href="#80">err</a>(Span::call_site(), <span class="string">&quot;missing assertion&quot;</span>)
+            err(Span::call_site(), <span class="string">&quot;missing assertion&quot;</span>)
         }
     }
 
@@ -1268,25 +1378,25 @@ Preparsing consists of two stages:
     /// &quot;lexemes&quot;. [min_bp] is the minimum binding power we need to see when
     /// identifying a binary operator.
     /// See https://matklad.github.io/2020/04/13/simple-but-powerful-pratt-parsing.html
-    </span><span class="kw">fn </span>expr_bp(<span class="kw-2">&amp;mut </span><span class="self">self</span>, min_bp: <a href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>) -&gt; syn::Result&lt;<a href="../../../proc_macro2/struct.TokenStream.html">TokenStream</a>&gt; {
-        <span class="kw">let </span><span class="kw-2">mut </span>lhs = <span class="kw">match </span><a class="self" href="#245">self</a>.tokens.pop_front() {
-            <span class="prelude-val">Some</span>(<a href="#574">PrustiToken::Group</a>(span, delimiter, <span class="kw">box </span>stream)) =&gt; {
-                <span class="kw">let </span><span class="kw-2">mut </span>group = proc_macro2::Group::new(
-                    <a href="#247">delimiter</a>,
-                    stream.parse()<span class="question-mark">?</span>,
-                );
-                <a href="#248">group</a>.set_span(<a href="#247">span</a>);
-                TokenTree::Group(<a href="#248">group</a>).<a href="../../../quote/to_tokens/trait.ToTokens.html">to_token_stream</a>()
+    </span><span class="kw">fn </span>expr_bp(<span class="kw-2">&amp;mut </span><span class="self">self</span>, min_bp: u8) -&gt; syn::Result&lt;TokenStream&gt; {
+        <span class="kw">let </span><span class="kw-2">mut </span>lhs = <span class="kw">match </span><span class="self">self</span>.tokens.pop_front() {
+            <span class="prelude-val">Some</span>(PrustiToken::Group(span, delimiter, <span class="kw">box </span>stream)) =&gt; {
+                <span class="kw">let </span><span class="kw-2">mut </span>group = proc_macro2::Group::new(delimiter, stream.parse()<span class="question-mark">?</span>);
+                group.set_span(span);
+                TokenTree::Group(group).to_token_stream()
             }
-            <span class="prelude-val">Some</span>(<a href="#578">PrustiToken::Outer</a>(span)) =&gt; {
-                <span class="kw">let </span>_stream = <span class="self">self</span>.pop_group(Delimiter::Parenthesis)
+            <span class="prelude-val">Some</span>(PrustiToken::Outer(span)) =&gt; {
+                <span class="kw">let </span>_stream = <span class="self">self
+                    </span>.pop_group(Delimiter::Parenthesis)
                     .ok_or_else(|| error(span, <span class="string">&quot;expected parenthesized expression after outer&quot;</span>))<span class="question-mark">?</span>;
-                <a class="macro" href="https://doc.rust-lang.org/nightly/core/macro.todo.html">todo!</a>()
+                <span class="macro">todo!</span>()
             }
-            <span class="prelude-val">Some</span>(<a href="#579">PrustiToken::Quantifier</a>(span, kind)) =&gt; {
-                <span class="kw">let </span><span class="kw-2">mut </span>stream = <span class="self">self</span>.pop_group(Delimiter::Parenthesis)
-                    .ok_or_else(|| error(span, <span class="string">&quot;expected parenthesized expression after quantifier&quot;</span>))<span class="question-mark">?</span>;
-                <span class="kw">let </span>args = stream.pop_closure_args()
+            <span class="prelude-val">Some</span>(PrustiToken::Quantifier(span, kind)) =&gt; {
+                <span class="kw">let </span><span class="kw-2">mut </span>stream = <span class="self">self</span>.pop_group(Delimiter::Parenthesis).ok_or_else(|| {
+                    error(span, <span class="string">&quot;expected parenthesized expression after quantifier&quot;</span>)
+                })<span class="question-mark">?</span>;
+                <span class="kw">let </span>args = stream
+                    .pop_closure_args()
                     .ok_or_else(|| error(span, <span class="string">&quot;expected quantifier body&quot;</span>))<span class="question-mark">?</span>;
 
                 {
@@ -1294,110 +1404,109 @@ Preparsing consists of two stages:
                     // here we parse the closure with syn and check each
                     // argument has a type annotation
                     </span><span class="kw">let </span>cl_args = args.clone().parse_rust_only()<span class="question-mark">?</span>;
-                    <span class="kw">let </span>check_cl = <a class="macro" href="../../../quote/macro.quote.html">quote! </a>{ | #cl_args | <span class="number">0 </span>};
+                    <span class="kw">let </span>check_cl = <span class="macro">quote! </span>{ | #cl_args | <span class="number">0 </span>};
                     <span class="kw">let </span>parsed_cl = syn::parse2::&lt;syn::ExprClosure&gt;(check_cl)<span class="question-mark">?</span>;
                     <span class="kw">for </span>pat <span class="kw">in </span>parsed_cl.inputs {
                         <span class="kw">match </span>pat {
                             syn::Pat::Type(<span class="kw">_</span>) =&gt; {}
-                            <span class="kw">_ </span>=&gt; <span class="kw">return </span>err(pat.span(), <span class="string">&quot;quantifier arguments must have explicit types&quot;</span>),
+                            <span class="kw">_ </span>=&gt; {
+                                <span class="kw">return </span>err(
+                                    pat.span(),
+                                    <span class="string">&quot;quantifier arguments must have explicit types&quot;</span>,
+                                )
+                            }
                         }
                     }
                 };
 
                 <span class="kw">let </span>triggers = stream.extract_triggers()<span class="question-mark">?</span>;
                 <span class="kw">if </span>args.is_empty() {
-                    <span class="kw">return </span><a href="#80">err</a>(<a href="#260">span</a>, <span class="string">&quot;a quantifier must have at least one argument&quot;</span>);
+                    <span class="kw">return </span>err(span, <span class="string">&quot;a quantifier must have at least one argument&quot;</span>);
                 }
                 <span class="kw">let </span>args = args.parse()<span class="question-mark">?</span>;
                 <span class="kw">let </span>body = stream.parse()<span class="question-mark">?</span>;
-                <a href="#260">kind</a>.<a href="#661-667">translate</a>(<a href="#260">span</a>, <a href="#281">triggers</a>, <a href="#285">args</a>, <a href="#286">body</a>)
+                kind.translate(span, triggers, args, body)
             }
 
-            <span class="prelude-val">Some</span>(<a href="#580">PrustiToken::SpecEnt</a>(span, <span class="kw">_</span>))
-            | <span class="prelude-val">Some</span>(<a href="#581">PrustiToken::CallDesc</a>(span, <span class="kw">_</span>)) =&gt;
-                <span class="kw">return </span><a href="#80">err</a>(<a href="#290">span</a>, <span class="string">&quot;unexpected operator&quot;</span>),
+            <span class="prelude-val">Some</span>(PrustiToken::SpecEnt(span, <span class="kw">_</span>)) | <span class="prelude-val">Some</span>(PrustiToken::CallDesc(span, <span class="kw">_</span>)) =&gt; {
+                <span class="kw">return </span>err(span, <span class="string">&quot;unexpected operator&quot;</span>)
+            }
 
             <span class="comment">// some Rust binary operators can appear on their own, e.g. `(..)`
-            </span><span class="prelude-val">Some</span>(<a href="#576">PrustiToken::BinOp</a>(span, <a href="#808">PrustiBinaryOp::Rust</a>(op))) =&gt;
-                <a href="#295">op</a>.<a href="#882-885">to_tokens</a>(<a href="#295">span</a>),
+            </span><span class="prelude-val">Some</span>(PrustiToken::BinOp(span, PrustiBinaryOp::Rust(op))) =&gt; op.to_tokens(span),
 
-            <span class="prelude-val">Some</span>(<a href="#576">PrustiToken::BinOp</a>(span, <span class="kw">_</span>)) =&gt;
-                <span class="kw">return </span><a href="#80">err</a>(<a href="#298">span</a>, <span class="string">&quot;unexpected binary operator&quot;</span>),
-            <span class="prelude-val">Some</span>(<a href="#575">PrustiToken::Token</a>(token)) =&gt; <a href="#300">token</a>.<a href="../../../quote/to_tokens/trait.ToTokens.html">to_token_stream</a>(),
+            <span class="prelude-val">Some</span>(PrustiToken::BinOp(span, <span class="kw">_</span>)) =&gt; <span class="kw">return </span>err(span, <span class="string">&quot;unexpected binary operator&quot;</span>),
+            <span class="prelude-val">Some</span>(PrustiToken::Token(token)) =&gt; token.to_token_stream(),
             <span class="prelude-val">None </span>=&gt; <span class="kw">return </span><span class="prelude-val">Ok</span>(TokenStream::new()),
         };
         <span class="kw">loop </span>{
-            <span class="kw">let </span>(span, op) = <span class="kw">match </span><a class="self" href="#245">self</a>.tokens.front() {
+            <span class="kw">let </span>(span, op) = <span class="kw">match </span><span class="self">self</span>.tokens.front() {
                 <span class="comment">// If we see a group or token, we simply add them to the
                 // current LHS. This way fragments of Rust code with higher-
                 // precedence operators (e.g. plus) are connected into atoms
                 // as far as our parser is concerned.
-                </span><span class="prelude-val">Some</span>(<a href="#574">PrustiToken::Group</a>(span, delimiter, <span class="kw">box </span>stream)) =&gt; {
-                    <span class="kw">let </span><span class="kw-2">mut </span>group = proc_macro2::Group::new(
-                        <span class="kw-2">*</span><a href="#309">delimiter</a>,
-                        stream.clone().parse()<span class="question-mark">?</span>,
-                    );
-                    <a href="#310">group</a>.set_span(<span class="kw-2">*</span><a href="#309">span</a>);
-                    <a href="#246">lhs</a>.<a href="https://doc.rust-lang.org/nightly/core/iter/traits/collect/trait.Extend.html">extend</a>(TokenTree::Group(<a href="#310">group</a>).<a href="../../../quote/to_tokens/trait.ToTokens.html">to_token_stream</a>());
-                    <a class="self" href="#245">self</a>.tokens.pop_front();
+                </span><span class="prelude-val">Some</span>(PrustiToken::Group(span, delimiter, <span class="kw">box </span>stream)) =&gt; {
+                    <span class="kw">let </span><span class="kw-2">mut </span>group = proc_macro2::Group::new(<span class="kw-2">*</span>delimiter, stream.clone().parse()<span class="question-mark">?</span>);
+                    group.set_span(<span class="kw-2">*</span>span);
+                    lhs.extend(TokenTree::Group(group).to_token_stream());
+                    <span class="self">self</span>.tokens.pop_front();
                     <span class="kw">continue</span>;
                 }
-                <span class="prelude-val">Some</span>(<a href="#575">PrustiToken::Token</a>(token)) =&gt; {
-                    <a href="#246">lhs</a>.<a href="https://doc.rust-lang.org/nightly/core/iter/traits/collect/trait.Extend.html">extend</a>(<a href="#319">token</a>.<a href="../../../quote/to_tokens/trait.ToTokens.html">to_token_stream</a>());
-                    <a class="self" href="#245">self</a>.tokens.pop_front();
+                <span class="prelude-val">Some</span>(PrustiToken::Token(token)) =&gt; {
+                    lhs.extend(token.to_token_stream());
+                    <span class="self">self</span>.tokens.pop_front();
                     <span class="kw">continue</span>;
                 }
 
-                <span class="prelude-val">Some</span>(<a href="#580">PrustiToken::SpecEnt</a>(span, once)) =&gt; {
-                    <span class="kw">let </span>span = <span class="kw-2">*</span><a href="#325">span</a>;
-                    <span class="kw">let </span>once = <span class="kw-2">*</span><a href="#325">once</a>;
-                    <a class="self" href="#245">self</a>.tokens.pop_front();
-                    <span class="kw">let </span>args = <span class="self">self</span>.pop_closure_args()
+                <span class="prelude-val">Some</span>(PrustiToken::SpecEnt(span, once)) =&gt; {
+                    <span class="kw">let </span>span = <span class="kw-2">*</span>span;
+                    <span class="kw">let </span>once = <span class="kw-2">*</span>once;
+                    <span class="self">self</span>.tokens.pop_front();
+                    <span class="kw">let </span>args = <span class="self">self
+                        </span>.pop_closure_args()
                         .ok_or_else(|| error(span, <span class="string">&quot;expected closure arguments&quot;</span>))<span class="question-mark">?</span>;
                     <span class="kw">let </span>nested_closure_specs = <span class="self">self</span>.pop_group_of_nested_specs(span)<span class="question-mark">?</span>;
-                    <a href="#246">lhs</a> = <a href="#584-590">translate_spec_ent</a>(
-                        <a href="#326">span</a>,
-                        <a href="#327">once</a>,
-                        <a href="#246">lhs</a>,
-                        args
-                            .split(PrustiBinaryOp::Rust(RustOp::Comma), <span class="bool-val">true</span>)
+                    lhs = translate_spec_ent(
+                        span,
+                        once,
+                        lhs,
+                        args.split(PrustiBinaryOp::Rust(RustOp::Comma), <span class="bool-val">true</span>)
                             .into_iter()
                             .map(|stream| stream.parse())
                             .collect::&lt;<span class="prelude-ty">Result</span>&lt;Vec&lt;<span class="kw">_</span>&gt;, <span class="kw">_</span>&gt;&gt;()<span class="question-mark">?</span>,
-                        <a href="#331">nested_closure_specs</a>,
+                        nested_closure_specs,
                     );
                     <span class="kw">continue</span>;
                 }
 
-                <span class="prelude-val">Some</span>(<a href="#581">PrustiToken::CallDesc</a>(..)) =&gt; <a class="macro" href="https://doc.rust-lang.org/nightly/core/macro.todo.html">todo!</a>(<span class="string">&quot;call desc&quot;</span>),
+                <span class="prelude-val">Some</span>(PrustiToken::CallDesc(..)) =&gt; <span class="macro">todo!</span>(<span class="string">&quot;call desc&quot;</span>),
 
-                <span class="prelude-val">Some</span>(<a href="#576">PrustiToken::BinOp</a>(span, op)) =&gt; (<span class="kw-2">*</span><a href="#348">span</a>, <span class="kw-2">*</span><a href="#348">op</a>),
-                <span class="prelude-val">Some</span>(<a href="#578">PrustiToken::Outer</a>(span)) =&gt;
-                    <span class="kw">return </span><a href="#80">err</a>(<span class="kw-2">*</span><a href="#349">span</a>, <span class="string">&quot;unexpected outer&quot;</span>),
-                <span class="prelude-val">Some</span>(<a href="#579">PrustiToken::Quantifier</a>(span, <span class="kw">_</span>)) =&gt;
-                    <span class="kw">return </span><a href="#80">err</a>(<span class="kw-2">*</span><a href="#351">span</a>, <span class="string">&quot;unexpected quantifier&quot;</span>),
+                <span class="prelude-val">Some</span>(PrustiToken::BinOp(span, op)) =&gt; (<span class="kw-2">*</span>span, <span class="kw-2">*</span>op),
+                <span class="prelude-val">Some</span>(PrustiToken::Outer(span)) =&gt; <span class="kw">return </span>err(<span class="kw-2">*</span>span, <span class="string">&quot;unexpected outer&quot;</span>),
+                <span class="prelude-val">Some</span>(PrustiToken::Quantifier(span, <span class="kw">_</span>)) =&gt; {
+                    <span class="kw">return </span>err(<span class="kw-2">*</span>span, <span class="string">&quot;unexpected quantifier&quot;</span>)
+                }
 
                 <span class="prelude-val">None </span>=&gt; <span class="kw">break</span>,
             };
-            <span class="kw">let </span>(l_bp, r_bp) = <a href="#304">op</a>.<a href="#816">binding_power</a>();
+            <span class="kw">let </span>(l_bp, r_bp) = op.binding_power();
             <span class="kw">if </span>l_bp &lt; min_bp {
                 <span class="kw">break</span>;
             }
-            <a class="self" href="#245">self</a>.tokens.pop_front();
+            <span class="self">self</span>.tokens.pop_front();
             <span class="kw">let </span>rhs = <span class="self">self</span>.expr_bp(r_bp)<span class="question-mark">?</span>;
             <span class="comment">// TODO: explain
             </span><span class="kw">if </span>!<span class="macro">matches!</span>(op, PrustiBinaryOp::Rust(<span class="kw">_</span>)) &amp;&amp; rhs.is_empty() {
-                <span class="kw">return </span><a href="#80">err</a>(<a href="#304">span</a>, <span class="string">&quot;expected expression&quot;</span>);
+                <span class="kw">return </span>err(span, <span class="string">&quot;expected expression&quot;</span>);
             }
-            <a href="#246">lhs</a> = <a href="#304">op</a>.<a href="#827-832">translate</a>(<a href="#304">span</a>, <a href="#246">lhs</a>, <a href="#361">rhs</a>);
+            lhs = op.translate(span, lhs, rhs);
         }
-        <span class="prelude-val">Ok</span>(<a href="#246">lhs</a>)
+        <span class="prelude-val">Ok</span>(lhs)
     }
 
-    <span class="kw">fn </span>pop_group(<span class="kw-2">&amp;mut </span><span class="self">self</span>, delimiter: <a href="../../../proc_macro2/enum.Delimiter.html">Delimiter</a>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">match </span><a class="self" href="#371">self</a>.tokens.pop_front() {
-            <span class="prelude-val">Some</span>(<a href="#574">PrustiToken::Group</a>(<span class="kw">_</span>, del, <span class="kw">box </span>stream)) <span class="kw">if </span><a href="#373">del</a> == <a href="#371">delimiter</a>
-                =&gt; <span class="prelude-val">Some</span>(<a href="#373">stream</a>),
+    <span class="kw">fn </span>pop_group(<span class="kw-2">&amp;mut </span><span class="self">self</span>, delimiter: Delimiter) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span><span class="self">self</span>.tokens.pop_front() {
+            <span class="prelude-val">Some</span>(PrustiToken::Group(<span class="kw">_</span>, del, <span class="kw">box </span>stream)) <span class="kw">if </span>del == delimiter =&gt; <span class="prelude-val">Some</span>(stream),
             <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
         }
     }
@@ -1406,8 +1515,14 @@ Preparsing consists of two stages:
         <span class="kw">let </span><span class="kw-2">mut </span>tokens = VecDeque::new();
 
         <span class="comment">// special case: empty closure might be parsed as a logical or
-        </span><span class="kw">if </span><a class="macro" href="https://doc.rust-lang.org/nightly/core/macro.matches.html">matches!</a>(<span class="self">self</span>.tokens.front(), <span class="prelude-val">Some</span>(PrustiToken::BinOp(<span class="kw">_</span>, PrustiBinaryOp::Or))) {
-            <span class="kw">return </span><span class="prelude-val">Some</span>(<span class="self">Self </span>{ <a href="#380">tokens</a>, source_span: <a class="self" href="#379">self</a>.source_span });
+        </span><span class="kw">if </span><span class="macro">matches!</span>(
+            <span class="self">self</span>.tokens.front(),
+            <span class="prelude-val">Some</span>(PrustiToken::BinOp(<span class="kw">_</span>, PrustiBinaryOp::Or))
+        ) {
+            <span class="kw">return </span><span class="prelude-val">Some</span>(<span class="self">Self </span>{
+                tokens,
+                source_span: <span class="self">self</span>.source_span,
+            });
         }
 
         <span class="kw">if </span>!<span class="self">self</span>.tokens.pop_front()<span class="question-mark">?</span>.is_closure_brace() {
@@ -1418,39 +1533,50 @@ Preparsing consists of two stages:
             <span class="kw">if </span>token.is_closure_brace() {
                 <span class="kw">break</span>;
             }
-            <a href="#380">tokens</a>.push_back(<a href="#391">token</a>);
+            tokens.push_back(token);
         }
 
-        <span class="prelude-val">Some</span>(<span class="self">Self </span>{ <a href="#380">tokens</a>, source_span: <a class="self" href="#379">self</a>.source_span })
+        <span class="prelude-val">Some</span>(<span class="self">Self </span>{
+            tokens,
+            source_span: <span class="self">self</span>.source_span,
+        })
     }
-    
+
     <span class="kw">fn </span>pop_parenthesized_group(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; syn::Result&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">match </span><a class="self" href="#401">self</a>.tokens.pop_front() {
-            <span class="prelude-val">Some</span>(<a href="#574">PrustiToken::Group</a>(_span, Delimiter::Parenthesis, <span class="kw">box </span>group)) =&gt; {
-                <span class="prelude-val">Ok</span>(<a href="#403">group</a>) <span class="comment">// TODO: need to clone()?
+        <span class="kw">match </span><span class="self">self</span>.tokens.pop_front() {
+            <span class="prelude-val">Some</span>(PrustiToken::Group(_span, Delimiter::Parenthesis, <span class="kw">box </span>group)) =&gt; {
+                <span class="prelude-val">Ok</span>(group) <span class="comment">// TODO: need to clone()?
             </span>}
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">Err</span>(<a href="#75">error</a>(<a class="self" href="#401">self</a>.source_span, <span class="string">&quot;expected parenthesized group&quot;</span>)),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">Err</span>(error(<span class="self">self</span>.source_span, <span class="string">&quot;expected parenthesized group&quot;</span>)),
         }
     }
-    
+
     <span class="kw">fn </span>pop_single_nested_spec(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; syn::Result&lt;NestedSpec&lt;<span class="self">Self</span>&gt;&gt; {
-        <span class="kw">let </span>first = <span class="self">self</span>.tokens.pop_front().ok_or_else(|| {
-            error(<span class="self">self</span>.source_span, <span class="string">&quot;expected nested spec&quot;</span>)
-        })<span class="question-mark">?</span>;
-        <span class="kw">if let </span><a href="#575">PrustiToken::Token</a>(TokenTree::Ident(spec_type)) = <a href="#411">first</a> {
-            <span class="kw">match </span><a href="#414">spec_type</a>.<a href="https://doc.rust-lang.org/nightly/alloc/string/trait.ToString.html">to_string</a>().<a href="https://doc.rust-lang.org/nightly/core/convert/trait.AsRef.html">as_ref</a>() {
-                <span class="string">&quot;requires&quot; </span>=&gt; <span class="prelude-val">Ok</span>(<a href="#557">NestedSpec::Requires</a>(<span class="self">self</span>.pop_parenthesized_group()<span class="question-mark">?</span>)),
-                <span class="string">&quot;ensures&quot; </span>=&gt; <span class="prelude-val">Ok</span>(<a href="#558">NestedSpec::Ensures</a>(<span class="self">self</span>.pop_parenthesized_group()<span class="question-mark">?</span>)),
-                <span class="string">&quot;pure&quot; </span>=&gt; <span class="prelude-val">Ok</span>(<a href="#559">NestedSpec::Pure</a>),
-                other =&gt; <a href="#80">err</a>(<a class="self" href="#410">self</a>.source_span, <a class="macro" href="https://doc.rust-lang.org/nightly/alloc/macro.format.html">format!</a>(<span class="string">&quot;unexpected nested spec type: {}&quot;</span>, other).<a href="https://doc.rust-lang.org/nightly/core/convert/trait.AsRef.html">as_ref</a>()),
+        <span class="kw">let </span>first = <span class="self">self
+            </span>.tokens
+            .pop_front()
+            .ok_or_else(|| error(<span class="self">self</span>.source_span, <span class="string">&quot;expected nested spec&quot;</span>))<span class="question-mark">?</span>;
+        <span class="kw">if let </span>PrustiToken::Token(TokenTree::Ident(spec_type)) = first {
+            <span class="kw">match </span>spec_type.to_string().as_ref() {
+                <span class="string">&quot;requires&quot; </span>=&gt; <span class="prelude-val">Ok</span>(NestedSpec::Requires(<span class="self">self</span>.pop_parenthesized_group()<span class="question-mark">?</span>)),
+                <span class="string">&quot;ensures&quot; </span>=&gt; <span class="prelude-val">Ok</span>(NestedSpec::Ensures(<span class="self">self</span>.pop_parenthesized_group()<span class="question-mark">?</span>)),
+                <span class="string">&quot;pure&quot; </span>=&gt; <span class="prelude-val">Ok</span>(NestedSpec::Pure),
+                other =&gt; err(
+                    <span class="self">self</span>.source_span,
+                    <span class="macro">format!</span>(<span class="string">&quot;unexpected nested spec type: {other}&quot;</span>).as_ref(),
+                ),
             }
         } <span class="kw">else </span>{
-            <a href="#80">err</a>(<a class="self" href="#410">self</a>.source_span, <span class="string">&quot;expected identifier&quot;</span>)
+            err(<span class="self">self</span>.source_span, <span class="string">&quot;expected identifier&quot;</span>)
         }
     }
 
-    <span class="kw">fn </span>pop_group_of_nested_specs(<span class="kw-2">&amp;mut </span><span class="self">self</span>, span: <a href="../../../proc_macro2/struct.Span.html">Span</a>) -&gt; syn::Result&lt;Vec&lt;NestedSpec&lt;<a href="../../../proc_macro2/struct.TokenStream.html">TokenStream</a>&gt;&gt;&gt; {
-        <span class="kw">let </span>group_of_specs = <span class="self">self</span>.pop_group(Delimiter::Bracket)
+    <span class="kw">fn </span>pop_group_of_nested_specs(
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+        span: Span,
+    ) -&gt; syn::Result&lt;Vec&lt;NestedSpec&lt;TokenStream&gt;&gt;&gt; {
+        <span class="kw">let </span>group_of_specs = <span class="self">self
+            </span>.pop_group(Delimiter::Bracket)
             .ok_or_else(|| error(span, <span class="string">&quot;expected nested specification in brackets&quot;</span>))<span class="question-mark">?</span>;
         <span class="kw">let </span>parsed = group_of_specs
             .split(PrustiBinaryOp::Rust(RustOp::Comma), <span class="bool-val">true</span>)
@@ -1458,103 +1584,131 @@ Preparsing consists of two stages:
             .map(|stream| stream.parse_rest(|stream| stream.pop_single_nested_spec()))
             .map(|stream| stream.and_then(|s| s.parse()))
             .collect::&lt;syn::Result&lt;Vec&lt;NestedSpec&lt;TokenStream&gt;&gt;&gt;&gt;()<span class="question-mark">?</span>;
-        <span class="prelude-val">Ok</span>(<a href="#429">parsed</a>)
+        <span class="prelude-val">Ok</span>(parsed)
     }
 
-    <span class="kw">fn </span>split(
-        <span class="self">self</span>,
-        split_on: <a href="#807">PrustiBinaryOp</a>,
-        allow_trailing: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>,
-    ) -&gt; Vec&lt;<span class="self">Self</span>&gt; {
+    <span class="kw">fn </span>split(<span class="self">self</span>, split_on: PrustiBinaryOp, allow_trailing: bool) -&gt; Vec&lt;<span class="self">Self</span>&gt; {
         <span class="kw">if </span><span class="self">self</span>.tokens.is_empty() {
-            <span class="kw">return </span><a class="macro" href="https://doc.rust-lang.org/nightly/alloc/macro.vec.html">vec!</a>[];
+            <span class="kw">return </span><span class="macro">vec!</span>[];
         }
-        <span class="kw">let </span><span class="kw-2">mut </span>res = <a class="self" href="#439">self</a>.tokens
-            .<a href="https://doc.rust-lang.org/nightly/core/iter/traits/collect/trait.IntoIterator.html">into_iter</a>()
-            .<a href="https://doc.rust-lang.org/nightly/core/iter/traits/iterator/trait.Iterator.html">collect</a>::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;()
-            .split(|token| <a class="macro" href="https://doc.rust-lang.org/nightly/core/macro.matches.html">matches!</a>(token, PrustiToken::BinOp(<span class="kw">_</span>, t) <span class="kw">if </span><span class="kw-2">*</span>t == split_on))
-            .<a href="https://doc.rust-lang.org/nightly/core/iter/traits/iterator/trait.Iterator.html">map</a>(|group| <span class="self">Self </span>{ tokens: <a href="#450">group</a>.iter().<a href="https://doc.rust-lang.org/nightly/core/iter/traits/iterator/trait.Iterator.html">cloned</a>().<a href="https://doc.rust-lang.org/nightly/core/iter/traits/iterator/trait.Iterator.html">collect</a>(), source_span: <a class="self" href="#439">self</a>.source_span })
-            .<a href="https://doc.rust-lang.org/nightly/core/iter/traits/iterator/trait.Iterator.html">collect</a>::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
+        <span class="kw">let </span><span class="kw-2">mut </span>res = <span class="self">self
+            </span>.tokens
+            .into_iter()
+            .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;()
+            .split(|token| <span class="macro">matches!</span>(token, PrustiToken::BinOp(<span class="kw">_</span>, t) <span class="kw">if </span><span class="kw-2">*</span>t == split_on))
+            .map(|group| <span class="self">Self </span>{
+                tokens: group.iter().cloned().collect(),
+                source_span: <span class="self">self</span>.source_span,
+            })
+            .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
         <span class="kw">if </span>allow_trailing &amp;&amp; res.len() &gt; <span class="number">1 </span>&amp;&amp; res[res.len() - <span class="number">1</span>].tokens.is_empty() {
-            <a href="#446">res</a>.pop();
+            res.pop();
         }
-        <a href="#446">res</a>
+        res
     }
 
-    <span class="kw">fn </span>extract_triggers(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; syn::Result&lt;Vec&lt;Vec&lt;<a href="../../../proc_macro2/struct.TokenStream.html">TokenStream</a>&gt;&gt;&gt; {
-        <span class="kw">let </span>len = <a class="self" href="#458">self</a>.tokens.len();
+    <span class="kw">fn </span>extract_triggers(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; syn::Result&lt;Vec&lt;Vec&lt;TokenStream&gt;&gt;&gt; {
+        <span class="kw">let </span>len = <span class="self">self</span>.tokens.len();
         <span class="kw">if </span>len &lt; <span class="number">4 </span>{
-            <span class="kw">return </span><span class="prelude-val">Ok</span>(<a class="macro" href="https://doc.rust-lang.org/nightly/alloc/macro.vec.html">vec!</a>[]);
+            <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="macro">vec!</span>[]);
         }
         <span class="kw">match </span>[
-            <span class="kw-2">&amp;</span><a class="self" href="#458">self</a>.tokens[<a href="#459">len</a> - <span class="number">4</span>],
-            <span class="kw-2">&amp;</span><a class="self" href="#458">self</a>.tokens[<a href="#459">len</a> - <span class="number">3</span>],
-            <span class="kw-2">&amp;</span><a class="self" href="#458">self</a>.tokens[<a href="#459">len</a> - <span class="number">2</span>],
-            <span class="kw-2">&amp;</span><a class="self" href="#458">self</a>.tokens[<a href="#459">len</a> - <span class="number">1</span>],
+            <span class="kw-2">&amp;</span><span class="self">self</span>.tokens[len - <span class="number">4</span>],
+            <span class="kw-2">&amp;</span><span class="self">self</span>.tokens[len - <span class="number">3</span>],
+            <span class="kw-2">&amp;</span><span class="self">self</span>.tokens[len - <span class="number">2</span>],
+            <span class="kw-2">&amp;</span><span class="self">self</span>.tokens[len - <span class="number">1</span>],
         ] {
-            [
-                <a href="#576">PrustiToken::BinOp</a>(<span class="kw">_</span>, <a href="#808">PrustiBinaryOp::Rust</a>(<a href="#866">RustOp::Comma</a>)),
-                <a href="#575">PrustiToken::Token</a>(TokenTree::Ident(ident)),
-                <a href="#576">PrustiToken::BinOp</a>(<span class="kw">_</span>, <a href="#808">PrustiBinaryOp::Rust</a>(<a href="#868">RustOp::Assign</a>)),
-                <a href="#574">PrustiToken::Group</a>(triggers_span, Delimiter::Bracket, <span class="kw">box </span>triggers),
-            ] <span class="kw">if </span><a href="#471">ident</a> == <span class="string">&quot;triggers&quot; </span>=&gt; {
-                <span class="kw">let </span>triggers = <a href="#473">triggers</a>.<a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html">clone</a>()
-                    .<a href="#438-442">split</a>(<a href="#808">PrustiBinaryOp::Rust</a>(<a href="#866">RustOp::Comma</a>), <span class="bool-val">true</span>)
-                    .<a href="https://doc.rust-lang.org/nightly/core/iter/traits/collect/trait.IntoIterator.html">into_iter</a>()
-                    .<a href="https://doc.rust-lang.org/nightly/core/iter/traits/iterator/trait.Iterator.html">map</a>(|<span class="kw-2">mut </span>stream| stream
-                        .pop_group(Delimiter::Parenthesis)
-                        .ok_or_else(|| error(<span class="kw-2">*</span>triggers_span, <span class="string">&quot;trigger sets must be tuples of expressions&quot;</span>))<span class="question-mark">?
-                        </span>.<a href="#438-442">split</a>(<a href="#808">PrustiBinaryOp::Rust</a>(<a href="#866">RustOp::Comma</a>), <span class="bool-val">true</span>)
-                        .<a href="https://doc.rust-lang.org/nightly/core/iter/traits/collect/trait.IntoIterator.html">into_iter</a>()
-                        .<a href="https://doc.rust-lang.org/nightly/core/iter/traits/iterator/trait.Iterator.html">map</a>(|stream| <a href="#483">stream</a>.<a href="#185">parse</a>())
-                        .<a href="https://doc.rust-lang.org/nightly/core/iter/traits/iterator/trait.Iterator.html">collect</a>::&lt;<span class="prelude-ty">Result</span>&lt;Vec&lt;<span class="kw">_</span>&gt;, <span class="kw">_</span>&gt;&gt;())
-                    .<a href="https://doc.rust-lang.org/nightly/core/iter/traits/iterator/trait.Iterator.html">collect</a>::&lt;<span class="prelude-ty">Result</span>&lt;Vec&lt;<span class="kw">_</span>&gt;, <span class="kw">_</span>&gt;&gt;();
-                <a class="self" href="#458">self</a>.tokens.truncate(<a href="#459">len</a> - <span class="number">4</span>);
-                <a href="#475">triggers</a>
+            [PrustiToken::BinOp(<span class="kw">_</span>, PrustiBinaryOp::Rust(RustOp::Comma)), PrustiToken::Token(TokenTree::Ident(ident)), PrustiToken::BinOp(<span class="kw">_</span>, PrustiBinaryOp::Rust(RustOp::Assign)), PrustiToken::Group(triggers_span, Delimiter::Bracket, <span class="kw">box </span>triggers)]
+                <span class="kw">if </span>ident == <span class="string">&quot;triggers&quot; </span>=&gt;
+            {
+                <span class="kw">let </span>triggers = triggers
+                    .clone()
+                    .split(PrustiBinaryOp::Rust(RustOp::Comma), <span class="bool-val">true</span>)
+                    .into_iter()
+                    .map(|<span class="kw-2">mut </span>stream| {
+                        stream
+                            .pop_group(Delimiter::Parenthesis)
+                            .ok_or_else(|| {
+                                error(<span class="kw-2">*</span>triggers_span, <span class="string">&quot;trigger sets must be tuples of expressions&quot;</span>)
+                            })<span class="question-mark">?
+                            </span>.split(PrustiBinaryOp::Rust(RustOp::Comma), <span class="bool-val">true</span>)
+                            .into_iter()
+                            .map(|stream| stream.parse())
+                            .collect::&lt;<span class="prelude-ty">Result</span>&lt;Vec&lt;<span class="kw">_</span>&gt;, <span class="kw">_</span>&gt;&gt;()
+                    })
+                    .collect::&lt;<span class="prelude-ty">Result</span>&lt;Vec&lt;<span class="kw">_</span>&gt;, <span class="kw">_</span>&gt;&gt;();
+                <span class="self">self</span>.tokens.truncate(len - <span class="number">4</span>);
+                triggers
             }
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">Ok</span>(<a class="macro" href="https://doc.rust-lang.org/nightly/alloc/macro.vec.html">vec!</a>[]),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">Ok</span>(<span class="macro">vec!</span>[]),
         }
     }
 }
 
 <span class="attr">#[derive(Debug)]
-</span><span class="kw">pub struct </span>GhostConstraint {
-    <span class="kw">pub </span>trait_bounds: <a href="../../../syn/generics/struct.PredicateType.html">syn::PredicateType</a>,
-    <span class="kw">pub </span>comma: <a href="../../../syn/token/struct.Comma.html">syn::token::Comma</a>,
-    <span class="kw">pub </span>specs: Vec&lt;NestedSpec&lt;<a href="../../../proc_macro2/struct.TokenStream.html">TokenStream</a>&gt;&gt;,
+</span><span class="kw">pub struct </span>TypeCondSpecRefinement {
+    <span class="kw">pub </span>trait_bounds: Vec&lt;syn::PredicateType&gt;,
+    <span class="kw">pub </span>specs: Vec&lt;NestedSpec&lt;TokenStream&gt;&gt;,
 }
 
-<span class="kw">impl </span><a href="../../../syn/parse/trait.Parse.html">Parse</a> <span class="kw">for </span><a href="#495">GhostConstraint</a> {
-    <span class="kw">fn </span>parse(input: <a href="../../../syn/parse/type.ParseStream.html">ParseStream</a>) -&gt; syn::Result&lt;<span class="self">Self</span>&gt; {
-        <span class="prelude-val">Ok</span>(<a href="#495">GhostConstraint</a> {
+<span class="kw">impl </span>Parse <span class="kw">for </span>TypeCondSpecRefinement {
+    <span class="kw">fn </span>parse(input: ParseStream) -&gt; syn::Result&lt;<span class="self">Self</span>&gt; {
+        input
+            .parse::&lt;<span class="macro">syn::Token!</span>[<span class="kw">where</span>]&gt;()
+            .map_err(with_type_cond_spec_example)<span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(TypeCondSpecRefinement {
             trait_bounds: parse_trait_bounds(input)<span class="question-mark">?</span>,
-            comma: input.parse().map_err(with_ghost_constraint_example)<span class="question-mark">?</span>,
-            specs: PrustiTokenStream::new(input.parse().expect(<span class="string">&quot;Failed to parse GhostConstraint&quot;</span>))
+            specs: PrustiTokenStream::new(input.parse().unwrap())
                 .parse_rest(|pts| pts.pop_group_of_nested_specs(input.span()))<span class="question-mark">?</span>,
         })
     }
 }
 
-<span class="kw">fn </span>parse_trait_bounds(input: <a href="../../../syn/parse/type.ParseStream.html">ParseStream</a>) -&gt; syn::Result&lt;<a href="../../../syn/generics/struct.PredicateType.html">syn::PredicateType</a>&gt; {
-    <span class="kw">use </span><a href="../../../syn/generics/enum.WherePredicate.html">syn::WherePredicate</a>::<span class="kw-2">*</span>;
-    <span class="kw">let </span>where_predicate: <a href="../../../syn/generics/enum.WherePredicate.html">syn::WherePredicate</a> = input.parse().map_err(with_ghost_constraint_example)<span class="question-mark">?</span>;
-    <span class="kw">match </span><a href="#514">where_predicate</a> {
+<span class="kw">fn </span>parse_trait_bounds(input: ParseStream) -&gt; syn::Result&lt;Vec&lt;syn::PredicateType&gt;&gt; {
+    <span class="kw">let </span><span class="kw-2">mut </span>bounds: Vec&lt;syn::PredicateType&gt; = Vec::new();
+    <span class="kw">loop </span>{
+        <span class="kw">let </span>predicate = input
+            .parse::&lt;syn::WherePredicate&gt;()
+            .map_err(with_type_cond_spec_example)<span class="question-mark">?</span>;
+        bounds.push(validate_predicate(predicate)<span class="question-mark">?</span>);
+        input
+            .parse::&lt;syn::token::Comma&gt;()
+            .map_err(with_type_cond_spec_example)<span class="question-mark">?</span>;
+        <span class="kw">if </span>input.peek(syn::token::Bracket) || input.is_empty() {
+            <span class="comment">// now expecting specs in []
+            // also breaking when empty, to handle that as missing specs rather than a missing constraint
+            </span><span class="kw">break</span>;
+        }
+    }
+    <span class="prelude-val">Ok</span>(bounds)
+}
+
+<span class="kw">fn </span>validate_predicate(predicate: syn::WherePredicate) -&gt; syn::Result&lt;syn::PredicateType&gt; {
+    <span class="kw">use </span>syn::WherePredicate::<span class="kw-2">*</span>;
+
+    <span class="kw">match </span>predicate {
         Type(type_bound) =&gt; {
             validate_trait_bounds(<span class="kw-2">&amp;</span>type_bound)<span class="question-mark">?</span>;
-            <span class="prelude-val">Ok</span>(<a href="#516">type_bound</a>)
+            <span class="prelude-val">Ok</span>(type_bound)
         }
-        Lifetime(lifetime_bound) =&gt; <a href="#525">disallowed_lifetime_error</a>(<a href="#520">lifetime_bound</a>.<a href="../../../syn/spanned/trait.Spanned.html">span</a>()),
-        Eq(eq_bound) =&gt; <a href="#80">err</a>(<a href="#521">eq_bound</a>.<a href="../../../syn/spanned/trait.Spanned.html">span</a>(), <span class="string">&quot;equality predicates are not supported in trait bounds&quot;</span>),
+        Lifetime(lifetime_bound) =&gt; disallowed_lifetime_error(lifetime_bound.span()),
+        Eq(eq_bound) =&gt; err(
+            eq_bound.span(),
+            <span class="string">&quot;equality constraints are not allowed in type-conditional spec refinements&quot;</span>,
+        ),
     }
 }
 
-<span class="kw">fn </span>disallowed_lifetime_error&lt;T&gt;(span: <a href="../../../proc_macro2/struct.Span.html">Span</a>) -&gt; syn::Result&lt;T&gt; {
-    <a href="#80">err</a>(<a href="#525">span</a>, <span class="string">&quot;lifetimes are not allowed in ghost constraint trait bounds&quot;</span>)
+<span class="kw">fn </span>disallowed_lifetime_error&lt;T&gt;(span: Span) -&gt; syn::Result&lt;T&gt; {
+    err(
+        span,
+        <span class="string">&quot;lifetimes are not allowed in type-conditional spec refinement trait bounds&quot;</span>,
+    )
 }
 
-<span class="kw">fn </span>validate_trait_bounds(trait_bounds: <span class="kw-2">&amp;</span><a href="../../../syn/generics/struct.PredicateType.html">syn::PredicateType</a>) -&gt; syn::Result&lt;()&gt; {
-    <span class="kw">if let </span><span class="prelude-val">Some</span>(lifetimes) = <span class="kw-2">&amp;</span><a href="#529">trait_bounds</a>.lifetimes {
-        <span class="kw">return </span><a href="#525">disallowed_lifetime_error</a>(<a href="#530">lifetimes</a>.<a href="../../../syn/spanned/trait.Spanned.html">span</a>());
+<span class="kw">fn </span>validate_trait_bounds(trait_bounds: <span class="kw-2">&amp;</span>syn::PredicateType) -&gt; syn::Result&lt;()&gt; {
+    <span class="kw">if let </span><span class="prelude-val">Some</span>(lifetimes) = <span class="kw-2">&amp;</span>trait_bounds.lifetimes {
+        <span class="kw">return </span>disallowed_lifetime_error(lifetimes.span());
     }
     <span class="kw">for </span>bound <span class="kw">in </span><span class="kw-2">&amp;</span>trait_bounds.bounds {
         <span class="kw">match </span>bound {
@@ -1563,7 +1717,7 @@ Preparsing consists of two stages:
             }
             syn::TypeParamBound::Trait(trait_bound) =&gt; {
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(lt) = <span class="kw-2">&amp;</span>trait_bound.lifetimes {
-                    <span class="kw">return </span>disallowed_lifetime_error(lt.span())
+                    <span class="kw">return </span>disallowed_lifetime_error(lt.span());
                 }
             }
         }
@@ -1572,12 +1726,12 @@ Preparsing consists of two stages:
     <span class="prelude-val">Ok</span>(())
 }
 
-<span class="kw">fn </span>with_ghost_constraint_example(<span class="kw-2">mut </span>err: <a href="../../../syn/error/struct.Error.html">syn::Error</a>) -&gt; <a href="../../../syn/error/struct.Error.html">syn::Error</a> {
-    <a href="#549">err</a>.combine(<a href="#75">error</a>(<a href="#549">err</a>.span(), <span class="string">&quot;expected a trait bound and specifications in brackets, e.g.: `ghost_constraint(T: A + B + ..., [requires(...), ...])`&quot;</span>));
-    <a href="#549">err</a>
+<span class="kw">fn </span>with_type_cond_spec_example(<span class="kw-2">mut </span>err: syn::Error) -&gt; syn::Error {
+    err.combine(error(err.span(), <span class="string">&quot;expected where constraint and specifications in brackets, e.g.: `refine_spec(where T: A + B, U: C, [requires(...), ...])`&quot;</span>));
+    err
 }
 
-<span class="doccomment">/// A specification enclosed in another specification (e.g. in spec entailments or ghost constraints)
+<span class="doccomment">/// A specification enclosed in another specification (e.g. in spec entailments or type-conditional spec refinements)
 </span><span class="attr">#[derive(Debug)]
 </span><span class="kw">pub enum </span>NestedSpec&lt;T&gt; {
     Requires(T),
@@ -1585,79 +1739,84 @@ Preparsing consists of two stages:
     Pure,
 }
 
-<span class="kw">impl </span>NestedSpec&lt;<a href="#85">PrustiTokenStream</a>&gt; {
-    <span class="kw">fn </span>parse(<span class="self">self</span>) -&gt; syn::Result&lt;NestedSpec&lt;<a href="../../../proc_macro2/struct.TokenStream.html">TokenStream</a>&gt;&gt; {
-        <span class="prelude-val">Ok</span>(<span class="kw">match </span><span class="self"><a href="#563">self</a> </span>{
-            <a href="#557">NestedSpec::Requires</a>(stream) =&gt; <a href="#557">NestedSpec::Requires</a>(stream.parse()<span class="question-mark">?</span>),
-            <a href="#558">NestedSpec::Ensures</a>(stream) =&gt; <a href="#558">NestedSpec::Ensures</a>(stream.parse()<span class="question-mark">?</span>),
-            <a href="#559">NestedSpec::Pure</a> =&gt; <a href="#559">NestedSpec::Pure</a>,
+<span class="kw">impl </span>NestedSpec&lt;PrustiTokenStream&gt; {
+    <span class="kw">fn </span>parse(<span class="self">self</span>) -&gt; syn::Result&lt;NestedSpec&lt;TokenStream&gt;&gt; {
+        <span class="prelude-val">Ok</span>(<span class="kw">match </span><span class="self">self </span>{
+            NestedSpec::Requires(stream) =&gt; NestedSpec::Requires(stream.parse()<span class="question-mark">?</span>),
+            NestedSpec::Ensures(stream) =&gt; NestedSpec::Ensures(stream.parse()<span class="question-mark">?</span>),
+            NestedSpec::Pure =&gt; NestedSpec::Pure,
         })
     }
 }
 
 <span class="attr">#[derive(Debug, Clone)]
 </span><span class="kw">enum </span>PrustiToken {
-    Group(<a href="../../../proc_macro2/struct.Span.html">Span</a>, <a href="../../../proc_macro2/enum.Delimiter.html">Delimiter</a>, Box&lt;<a href="#85">PrustiTokenStream</a>&gt;),
-    Token(<a href="../../../proc_macro2/enum.TokenTree.html">TokenTree</a>),
-    BinOp(<a href="../../../proc_macro2/struct.Span.html">Span</a>, <a href="#807">PrustiBinaryOp</a>),
+    Group(Span, Delimiter, Box&lt;PrustiTokenStream&gt;),
+    Token(TokenTree),
+    BinOp(Span, PrustiBinaryOp),
     <span class="comment">// TODO: add note about unops not sharing a variant, descriptions ...
-    </span>Outer(<a href="../../../proc_macro2/struct.Span.html">Span</a>),
-    Quantifier(<a href="../../../proc_macro2/struct.Span.html">Span</a>, <a href="#655">Quantifier</a>),
-    SpecEnt(<a href="../../../proc_macro2/struct.Span.html">Span</a>, <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>),
-    CallDesc(<a href="../../../proc_macro2/struct.Span.html">Span</a>, <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>),
+    </span>Outer(Span),
+    Quantifier(Span, Quantifier),
+    SpecEnt(Span, bool),
+    CallDesc(Span, bool),
 }
 
 <span class="kw">fn </span>translate_spec_ent(
-    span: <a href="../../../proc_macro2/struct.Span.html">Span</a>,
-    once: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>,
-    cl_expr: <a href="../../../proc_macro2/struct.TokenStream.html">TokenStream</a>,
-    cl_args: Vec&lt;<a href="../../../proc_macro2/struct.TokenStream.html">TokenStream</a>&gt;,
-    contract: Vec&lt;NestedSpec&lt;<a href="../../../proc_macro2/struct.TokenStream.html">TokenStream</a>&gt;&gt;,
-) -&gt; <a href="../../../proc_macro2/struct.TokenStream.html">TokenStream</a> {
+    span: Span,
+    once: bool,
+    cl_expr: TokenStream,
+    cl_args: Vec&lt;TokenStream&gt;,
+    contract: Vec&lt;NestedSpec&lt;TokenStream&gt;&gt;,
+) -&gt; TokenStream {
     <span class="kw">let </span>once = <span class="kw">if </span>once {
-        <a class="macro" href="../../../quote/macro.quote_spanned.html">quote_spanned! </a>{ span =&gt; <span class="bool-val">true </span>}
+        <span class="macro">quote_spanned! </span>{ span =&gt; <span class="bool-val">true </span>}
     } <span class="kw">else </span>{
-        <a class="macro" href="../../../quote/macro.quote_spanned.html">quote_spanned! </a>{ span =&gt; <span class="bool-val">false </span>}
+        <span class="macro">quote_spanned! </span>{ span =&gt; <span class="bool-val">false </span>}
     };
 
     <span class="comment">// TODO: move extraction function generation into &quot;fn_type_extractor&quot;
-    </span><span class="kw">let </span>arg_count = <a href="#588">cl_args</a>.len();
-    <span class="kw">let </span>generics_args = (<span class="number">0</span>..<a href="#598">arg_count</a>)
-        .<a href="https://doc.rust-lang.org/nightly/core/iter/traits/iterator/trait.Iterator.html">map</a>(|i| TokenTree::Ident(proc_macro2::Ident::new(<span class="kw-2">&amp;</span><a class="macro" href="https://doc.rust-lang.org/nightly/alloc/macro.format.html">format!</a>(<span class="string">&quot;GA{}&quot;</span>, i), <a href="#585">span</a>)))
-        .<a href="https://doc.rust-lang.org/nightly/core/iter/traits/iterator/trait.Iterator.html">collect</a>::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
-    <span class="kw">let </span>generic_res = TokenTree::Ident(proc_macro2::Ident::new(<span class="string">&quot;GR&quot;</span>, <a href="#585">span</a>));
+    </span><span class="kw">let </span>arg_count = cl_args.len();
+    <span class="kw">let </span>generics_args = (<span class="number">0</span>..arg_count)
+        .map(|i| TokenTree::Ident(proc_macro2::Ident::new(<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">&quot;GA{i}&quot;</span>), span)))
+        .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
+    <span class="kw">let </span>generic_res = TokenTree::Ident(proc_macro2::Ident::new(<span class="string">&quot;GR&quot;</span>, span));
 
-    <span class="kw">let </span>extract_args = (<span class="number">0</span>..<a href="#598">arg_count</a>)
-        .<a href="https://doc.rust-lang.org/nightly/core/iter/traits/iterator/trait.Iterator.html">map</a>(|i| TokenTree::Ident(proc_macro2::Ident::new(<span class="kw-2">&amp;</span><a class="macro" href="https://doc.rust-lang.org/nightly/alloc/macro.format.html">format!</a>(<span class="string">&quot;__extract_arg{}&quot;</span>, i), <a href="#585">span</a>)))
-        .<a href="https://doc.rust-lang.org/nightly/core/iter/traits/iterator/trait.Iterator.html">collect</a>::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
-    <span class="kw">let </span>extract_args_decl = <a href="#604">extract_args</a>.iter()
-        .<a href="https://doc.rust-lang.org/nightly/core/iter/traits/iterator/trait.Iterator.html">zip</a>(<a href="#599">generics_args</a>.iter())
-        .<a href="https://doc.rust-lang.org/nightly/core/iter/traits/iterator/trait.Iterator.html">map</a>(|(ident, arg_type)| <a class="macro" href="../../../quote/macro.quote_spanned.html">quote_spanned! </a>{ span =&gt;
-            <span class="attr">#[prusti::spec_only]
-            </span><span class="kw">fn </span>#ident&lt;
-                #(#generics_args),* ,
-                #generic_res,
-                F: FnOnce( #(#generics_args),* ) -&gt; #generic_res
-            &gt;(_f: <span class="kw-2">&amp;</span>F) -&gt; #arg_type { <span class="macro">unreachable!</span>() }
+    <span class="kw">let </span>extract_args = (<span class="number">0</span>..arg_count)
+        .map(|i| TokenTree::Ident(proc_macro2::Ident::new(<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">&quot;__extract_arg{i}&quot;</span>), span)))
+        .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
+    <span class="kw">let </span>extract_args_decl = extract_args
+        .iter()
+        .zip(generics_args.iter())
+        .map(|(ident, arg_type)| {
+            <span class="macro">quote_spanned! </span>{ span =&gt;
+                <span class="attr">#[prusti::spec_only]
+                </span><span class="kw">fn </span>#ident&lt;
+                    #(#generics_args),* ,
+                    #generic_res,
+                    F: FnOnce( #(#generics_args),* ) -&gt; #generic_res
+                &gt;(_f: <span class="kw-2">&amp;</span>F) -&gt; #arg_type { <span class="macro">unreachable!</span>() }
+            }
         })
-        .<a href="https://doc.rust-lang.org/nightly/core/iter/traits/iterator/trait.Iterator.html">collect</a>::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
+        .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
 
-    <span class="kw">let </span>preconds = <a href="#589">contract</a>.iter()
-        .<a href="https://doc.rust-lang.org/nightly/core/iter/traits/iterator/trait.Iterator.html">filter_map</a>(|spec| <span class="kw">match </span><a href="#620">spec</a> {
-            <a href="#557">NestedSpec::Requires</a>(stream) =&gt; <span class="prelude-val">Some</span>(<a href="#621">stream</a>.<a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html">clone</a>()),
+    <span class="kw">let </span>preconds = contract
+        .iter()
+        .filter_map(|spec| <span class="kw">match </span>spec {
+            NestedSpec::Requires(stream) =&gt; <span class="prelude-val">Some</span>(stream.clone()),
             <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
         })
-        .<a href="https://doc.rust-lang.org/nightly/core/iter/traits/iterator/trait.Iterator.html">collect</a>::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
-    <span class="kw">let </span>postconds = <a href="#589">contract</a>.<a href="https://doc.rust-lang.org/nightly/core/iter/traits/collect/trait.IntoIterator.html">into_iter</a>()
-        .<a href="https://doc.rust-lang.org/nightly/core/iter/traits/iterator/trait.Iterator.html">filter_map</a>(|spec| <span class="kw">match </span><a href="#626">spec</a> {
-            <a href="#558">NestedSpec::Ensures</a>(stream) =&gt; <span class="prelude-val">Some</span>(<a href="#627">stream</a>),
+        .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
+    <span class="kw">let </span>postconds = contract
+        .into_iter()
+        .filter_map(|spec| <span class="kw">match </span>spec {
+            NestedSpec::Ensures(stream) =&gt; <span class="prelude-val">Some</span>(stream),
             <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
         })
-        .<a href="https://doc.rust-lang.org/nightly/core/iter/traits/iterator/trait.Iterator.html">collect</a>::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
+        .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
 
     <span class="comment">// TODO: figure out `outer`
 
-    </span><a class="macro" href="../../../quote/macro.quote_spanned.html">quote_spanned! </a>{ span =&gt; {
+    </span><span class="macro">quote_spanned! </span>{ span =&gt; {
         <span class="kw">let </span>__cl_ref = &amp; #cl_expr;
         #(#extract_args_decl)*
         <span class="attr">#[prusti::spec_only]
@@ -1683,31 +1842,33 @@ Preparsing consists of two stages:
     Exists,
 }
 
-<span class="kw">impl </span><a href="#655">Quantifier</a> {
+<span class="kw">impl </span>Quantifier {
     <span class="kw">fn </span>translate(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        span: <a href="../../../proc_macro2/struct.Span.html">Span</a>,
-        triggers: Vec&lt;Vec&lt;<a href="../../../proc_macro2/struct.TokenStream.html">TokenStream</a>&gt;&gt;,
-        args: <a href="../../../proc_macro2/struct.TokenStream.html">TokenStream</a>,
-        body: <a href="../../../proc_macro2/struct.TokenStream.html">TokenStream</a>,
-    ) -&gt; <a href="../../../proc_macro2/struct.TokenStream.html">TokenStream</a> {
+        span: Span,
+        triggers: Vec&lt;Vec&lt;TokenStream&gt;&gt;,
+        args: TokenStream,
+        body: TokenStream,
+    ) -&gt; TokenStream {
         <span class="comment">// TODO: refer to forall and exists with prusti_contracts:: prefix
-        </span><span class="kw">let </span>trigger_sets = <a href="#664">triggers</a>.<a href="https://doc.rust-lang.org/nightly/core/iter/traits/collect/trait.IntoIterator.html">into_iter</a>()
-            .<a href="https://doc.rust-lang.org/nightly/core/iter/traits/iterator/trait.Iterator.html">map</a>(|set| {
-                <span class="kw">let </span>triggers = TokenStream::from_iter(<a href="#670">set</a>.<a href="https://doc.rust-lang.org/nightly/core/iter/traits/collect/trait.IntoIterator.html">into_iter</a>()
-                    .<a href="https://doc.rust-lang.org/nightly/core/iter/traits/iterator/trait.Iterator.html">map</a>(|trigger| <a class="macro" href="../../../quote/macro.quote_spanned.html">quote_spanned! </a>{ trigger.span() =&gt;
-                        <span class="attr">#[prusti::spec_only] </span>| #args | ( #trigger ), }));
-                <a class="macro" href="../../../quote/macro.quote_spanned.html">quote_spanned! </a>{ span =&gt; ( #triggers ) }
+        </span><span class="kw">let </span>trigger_sets = triggers
+            .into_iter()
+            .map(|set| {
+                <span class="kw">let </span>triggers = TokenStream::from_iter(set.into_iter().map(|trigger| {
+                    <span class="macro">quote_spanned! </span>{ trigger.span() =&gt;
+                    <span class="attr">#[prusti::spec_only] </span>| #args | ( #trigger ), }
+                }));
+                <span class="macro">quote_spanned! </span>{ span =&gt; ( #triggers ) }
             })
             <span class="comment">//.map(|set| quote_spanned! { span =&gt;
             //    ( #( #[prusti::spec_only] | #args | ( #set ), )* ) })
-            </span>.<a href="https://doc.rust-lang.org/nightly/core/iter/traits/iterator/trait.Iterator.html">collect</a>::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
-        <span class="kw">match </span><span class="self"><a href="#662">self</a> </span>{
-            <span class="self">Self</span>::Forall =&gt; <a class="macro" href="../../../quote/macro.quote_spanned.html">quote_spanned! </a>{ body.span() =&gt; forall(
+            </span>.collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
+        <span class="kw">match </span><span class="self">self </span>{
+            <span class="self">Self</span>::Forall =&gt; <span class="macro">quote_spanned! </span>{ body.span() =&gt; forall(
                 ( #( #trigger_sets, )* ),
                 <span class="attr">#[prusti::spec_only] </span>| #args | -&gt; bool { ((#body): bool) }
             ) },
-            <span class="self">Self</span>::Exists =&gt; <a class="macro" href="../../../quote/macro.quote_spanned.html">quote_spanned! </a>{ body.span() =&gt; exists(
+            <span class="self">Self</span>::Exists =&gt; <span class="macro">quote_spanned! </span>{ body.span() =&gt; exists(
                 ( #( #trigger_sets, )* ),
                 <span class="attr">#[prusti::spec_only] </span>| #args | -&gt; bool { ((#body): bool) }
             ) },
@@ -1722,125 +1883,114 @@ Preparsing consists of two stages:
 //
 // &quot;==&gt;&quot; should still have the expected spacing of [Joint, Joint, Alone]
 // even though &quot;==&quot; and &quot;&gt;&quot; are separate Rust operators.
-</span><span class="kw">fn </span>operator2(
-    op: <span class="kw-2">&amp;</span><a href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>,
-    p1: <span class="kw-2">&amp;</span><a href="../../../proc_macro2/struct.Punct.html">Punct</a>,
-    p2: <span class="kw-2">&amp;</span><a href="../../../proc_macro2/struct.Punct.html">Punct</a>,
-) -&gt; <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a> {
-    <span class="kw">let </span>chars = <a href="#700">op</a>.chars().<a href="https://doc.rust-lang.org/nightly/core/iter/traits/iterator/trait.Iterator.html">collect</a>::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
-    [<a href="#701">p1</a>.as_char(), <a href="#702">p2</a>.as_char()] == <a href="#704">chars</a>[<span class="number">0</span>..<span class="number">2</span>]
-        &amp;&amp; <a href="#701">p1</a>.spacing() == Joint
-        &amp;&amp; <a href="#702">p2</a>.spacing() == Alone
+</span><span class="kw">fn </span>operator2(op: <span class="kw-2">&amp;</span>str, p1: <span class="kw-2">&amp;</span>Punct, p2: <span class="kw-2">&amp;</span>Punct) -&gt; bool {
+    <span class="kw">let </span>chars = op.chars().collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
+    [p1.as_char(), p2.as_char()] == chars[<span class="number">0</span>..<span class="number">2</span>] &amp;&amp; p1.spacing() == Joint &amp;&amp; p2.spacing() == Alone
 }
 
-<span class="kw">fn </span>operator3(
-    op: <span class="kw-2">&amp;</span><a href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>,
-    p1: <span class="kw-2">&amp;</span><a href="../../../proc_macro2/struct.Punct.html">Punct</a>,
-    p2: <span class="kw-2">&amp;</span><a href="../../../proc_macro2/struct.Punct.html">Punct</a>,
-    p3: <span class="kw-2">&amp;</span><a href="../../../proc_macro2/struct.Punct.html">Punct</a>,
-) -&gt; <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a> {
-    <span class="kw">let </span>chars = <a href="#711">op</a>.chars().<a href="https://doc.rust-lang.org/nightly/core/iter/traits/iterator/trait.Iterator.html">collect</a>::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
-    [<a href="#712">p1</a>.as_char(), <a href="#713">p2</a>.as_char(), <a href="#714">p3</a>.as_char()] == <a href="#716">chars</a>[<span class="number">0</span>..<span class="number">3</span>]
-        &amp;&amp; <a href="#712">p1</a>.spacing() == Joint &amp;&amp; <a href="#713">p2</a>.spacing() == Joint
-        &amp;&amp; <a href="#714">p3</a>.spacing() == Alone
+<span class="kw">fn </span>operator3(op: <span class="kw-2">&amp;</span>str, p1: <span class="kw-2">&amp;</span>Punct, p2: <span class="kw-2">&amp;</span>Punct, p3: <span class="kw-2">&amp;</span>Punct) -&gt; bool {
+    <span class="kw">let </span>chars = op.chars().collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
+    [p1.as_char(), p2.as_char(), p3.as_char()] == chars[<span class="number">0</span>..<span class="number">3</span>]
+        &amp;&amp; p1.spacing() == Joint
+        &amp;&amp; p2.spacing() == Joint
+        &amp;&amp; p3.spacing() == Alone
 }
 
-<span class="kw">impl </span><a href="#573">PrustiToken</a> {
-    <span class="kw">fn </span>span(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <a href="../../../proc_macro2/struct.Span.html">Span</a> {
-        <span class="kw">match </span><span class="self"><a href="#723">self</a> </span>{
+<span class="kw">impl </span>PrustiToken {
+    <span class="kw">fn </span>span(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Span {
+        <span class="kw">match </span><span class="self">self </span>{
             <span class="self">Self</span>::Group(span, <span class="kw">_</span>, <span class="kw">_</span>)
             | <span class="self">Self</span>::BinOp(span, <span class="kw">_</span>)
             | <span class="self">Self</span>::Outer(span)
             | <span class="self">Self</span>::Quantifier(span, <span class="kw">_</span>)
             | <span class="self">Self</span>::SpecEnt(span, <span class="kw">_</span>)
-            | <span class="self">Self</span>::CallDesc(span, <span class="kw">_</span>) =&gt; <span class="kw-2">*</span><a href="#725">span</a>,
-            <span class="self">Self</span>::Token(tree) =&gt; <a href="#731">tree</a>.span(),
+            | <span class="self">Self</span>::CallDesc(span, <span class="kw">_</span>) =&gt; <span class="kw-2">*</span>span,
+            <span class="self">Self</span>::Token(tree) =&gt; tree.span(),
         }
     }
 
-    <span class="kw">fn </span>is_closure_brace(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a> {
-        <a class="macro" href="https://doc.rust-lang.org/nightly/core/macro.matches.html">matches!</a>(<span class="self">self</span>, <span class="self">Self</span>::Token(TokenTree::Punct(p))
+    <span class="kw">fn </span>is_closure_brace(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+        <span class="macro">matches!</span>(<span class="self">self</span>, <span class="self">Self</span>::Token(TokenTree::Punct(p))
             <span class="kw">if </span>p.as_char() == <span class="string">&#39;|&#39; </span>&amp;&amp; p.spacing() == proc_macro2::Spacing::Alone)
     }
 
-    <span class="kw">fn </span>parse_op2(
-        p1: <span class="kw-2">&amp;</span><a href="../../../proc_macro2/struct.Punct.html">Punct</a>,
-        p2: <span class="kw-2">&amp;</span><a href="../../../proc_macro2/struct.Punct.html">Punct</a>,
-    ) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">let </span>span = <a href="#907">join_spans</a>(<a href="#741">p1</a>.span(), <a href="#742">p2</a>.span());
-        <span class="prelude-val">Some</span>(<span class="self">Self</span>::BinOp(<a href="#744">span</a>, <span class="kw">if </span>operator2(<span class="string">&quot;&amp;&amp;&quot;</span>, p1, p2) {
-            <a href="#811">PrustiBinaryOp::And</a>
-        } <span class="kw">else if </span>operator2(<span class="string">&quot;||&quot;</span>, p1, p2) {
-            <a href="#810">PrustiBinaryOp::Or</a>
-        } <span class="kw">else if </span>operator2(<span class="string">&quot;-&gt;&quot;</span>, p1, p2) {
-            <a href="#809">PrustiBinaryOp::Implies</a>
-        } <span class="kw">else if </span>operator2(<span class="string">&quot;..&quot;</span>, p1, p2) {
-            <a href="#808">PrustiBinaryOp::Rust</a>(<a href="#855">RustOp::Range</a>)
-        } <span class="kw">else if </span>operator2(<span class="string">&quot;+=&quot;</span>, p1, p2) {
-            <a href="#808">PrustiBinaryOp::Rust</a>(<a href="#856">RustOp::AddAssign</a>)
-        } <span class="kw">else if </span>operator2(<span class="string">&quot;-=&quot;</span>, p1, p2) {
-            <a href="#808">PrustiBinaryOp::Rust</a>(<a href="#857">RustOp::SubtractAssign</a>)
-        } <span class="kw">else if </span>operator2(<span class="string">&quot;*=&quot;</span>, p1, p2) {
-            <a href="#808">PrustiBinaryOp::Rust</a>(<a href="#858">RustOp::MultiplyAssign</a>)
-        } <span class="kw">else if </span>operator2(<span class="string">&quot;/=&quot;</span>, p1, p2) {
-            <a href="#808">PrustiBinaryOp::Rust</a>(<a href="#859">RustOp::DivideAssign</a>)
-        } <span class="kw">else if </span>operator2(<span class="string">&quot;%=&quot;</span>, p1, p2) {
-            <a href="#808">PrustiBinaryOp::Rust</a>(<a href="#860">RustOp::ModuloAssign</a>)
-        } <span class="kw">else if </span>operator2(<span class="string">&quot;&amp;=&quot;</span>, p1, p2) {
-            <a href="#808">PrustiBinaryOp::Rust</a>(<a href="#861">RustOp::BitAndAssign</a>)
-        <span class="comment">//} else if operator2(&quot;|=&quot;, p1, p2) {
-        //    PrustiBinaryOp::Rust(RustOp::BitOrAssign)
-        </span>} <span class="kw">else if </span>operator2(<span class="string">&quot;^=&quot;</span>, p1, p2) {
-            <a href="#808">PrustiBinaryOp::Rust</a>(<a href="#864">RustOp::BitXorAssign</a>)
-        } <span class="kw">else if </span>operator2(<span class="string">&quot;=&gt;&quot;</span>, p1, p2) {
-            <a href="#808">PrustiBinaryOp::Rust</a>(<a href="#865">RustOp::Arrow</a>)
-        } <span class="kw">else if </span>operator2(<span class="string">&quot;|=&quot;</span>, p1, p2) {
-            <span class="kw">return </span><span class="prelude-val">Some</span>(<span class="self">Self</span>::SpecEnt(<a href="#744">span</a>, <span class="bool-val">false</span>));
-        } <span class="kw">else if </span>operator2(<span class="string">&quot;~&gt;&quot;</span>, p1, p2) {
-            <span class="kw">return </span><span class="prelude-val">Some</span>(<span class="self">Self</span>::CallDesc(<a href="#744">span</a>, <span class="bool-val">false</span>));
-        } <span class="kw">else </span>{
-            <span class="kw">return </span><span class="prelude-val">None</span>;
-        }))
+    <span class="kw">fn </span>parse_op2(p1: <span class="kw-2">&amp;</span>Punct, p2: <span class="kw-2">&amp;</span>Punct) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">let </span>span = join_spans(p1.span(), p2.span());
+        <span class="prelude-val">Some</span>(<span class="self">Self</span>::BinOp(
+            span,
+            <span class="kw">if </span>operator2(<span class="string">&quot;&amp;&amp;&quot;</span>, p1, p2) {
+                PrustiBinaryOp::And
+            } <span class="kw">else if </span>operator2(<span class="string">&quot;||&quot;</span>, p1, p2) {
+                PrustiBinaryOp::Or
+            } <span class="kw">else if </span>operator2(<span class="string">&quot;-&gt;&quot;</span>, p1, p2) {
+                PrustiBinaryOp::Implies
+            } <span class="kw">else if </span>operator2(<span class="string">&quot;..&quot;</span>, p1, p2) {
+                PrustiBinaryOp::Rust(RustOp::Range)
+            } <span class="kw">else if </span>operator2(<span class="string">&quot;+=&quot;</span>, p1, p2) {
+                PrustiBinaryOp::Rust(RustOp::AddAssign)
+            } <span class="kw">else if </span>operator2(<span class="string">&quot;-=&quot;</span>, p1, p2) {
+                PrustiBinaryOp::Rust(RustOp::SubtractAssign)
+            } <span class="kw">else if </span>operator2(<span class="string">&quot;*=&quot;</span>, p1, p2) {
+                PrustiBinaryOp::Rust(RustOp::MultiplyAssign)
+            } <span class="kw">else if </span>operator2(<span class="string">&quot;/=&quot;</span>, p1, p2) {
+                PrustiBinaryOp::Rust(RustOp::DivideAssign)
+            } <span class="kw">else if </span>operator2(<span class="string">&quot;%=&quot;</span>, p1, p2) {
+                PrustiBinaryOp::Rust(RustOp::ModuloAssign)
+            } <span class="kw">else if </span>operator2(<span class="string">&quot;&amp;=&quot;</span>, p1, p2) {
+                PrustiBinaryOp::Rust(RustOp::BitAndAssign)
+            <span class="comment">//} else if operator2(&quot;|=&quot;, p1, p2) {
+            //    PrustiBinaryOp::Rust(RustOp::BitOrAssign)
+            </span>} <span class="kw">else if </span>operator2(<span class="string">&quot;^=&quot;</span>, p1, p2) {
+                PrustiBinaryOp::Rust(RustOp::BitXorAssign)
+            } <span class="kw">else if </span>operator2(<span class="string">&quot;=&gt;&quot;</span>, p1, p2) {
+                PrustiBinaryOp::Rust(RustOp::Arrow)
+            } <span class="kw">else if </span>operator2(<span class="string">&quot;|=&quot;</span>, p1, p2) {
+                <span class="kw">return </span><span class="prelude-val">Some</span>(<span class="self">Self</span>::SpecEnt(span, <span class="bool-val">false</span>));
+            } <span class="kw">else if </span>operator2(<span class="string">&quot;~&gt;&quot;</span>, p1, p2) {
+                <span class="kw">return </span><span class="prelude-val">Some</span>(<span class="self">Self</span>::CallDesc(span, <span class="bool-val">false</span>));
+            } <span class="kw">else </span>{
+                <span class="kw">return </span><span class="prelude-val">None</span>;
+            },
+        ))
     }
 
-    <span class="kw">fn </span>parse_op3(
-        p1: <span class="kw-2">&amp;</span><a href="../../../proc_macro2/struct.Punct.html">Punct</a>,
-        p2: <span class="kw-2">&amp;</span><a href="../../../proc_macro2/struct.Punct.html">Punct</a>,
-        p3: <span class="kw-2">&amp;</span><a href="../../../proc_macro2/struct.Punct.html">Punct</a>,
-    ) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">let </span>span = <a href="#907">join_spans</a>(<a href="#907">join_spans</a>(<a href="#781">p1</a>.span(), <a href="#782">p2</a>.span()), <a href="#783">p3</a>.span());
-        <span class="prelude-val">Some</span>(<span class="self">Self</span>::BinOp(<a href="#785">span</a>, <span class="kw">if </span>operator3(<span class="string">&quot;==&gt;&quot;</span>, p1, p2, p3) {
-            <a href="#809">PrustiBinaryOp::Implies</a>
-        } <span class="kw">else if </span>operator3(<span class="string">&quot;===&quot;</span>, p1, p2, p3) {
-            <a href="#812">PrustiBinaryOp::SnapEq</a>
-        } <span class="kw">else if </span>operator3(<span class="string">&quot;..=&quot;</span>, p1, p2, p3) {
-            <a href="#808">PrustiBinaryOp::Rust</a>(<a href="#852">RustOp::RangeInclusive</a>)
-        } <span class="kw">else if </span>operator3(<span class="string">&quot;&lt;&lt;=&quot;</span>, p1, p2, p3) {
-            <a href="#808">PrustiBinaryOp::Rust</a>(<a href="#853">RustOp::LeftShiftAssign</a>)
-        } <span class="kw">else if </span>operator3(<span class="string">&quot;&gt;&gt;=&quot;</span>, p1, p2, p3) {
-            <a href="#808">PrustiBinaryOp::Rust</a>(<a href="#854">RustOp::RightShiftAssign</a>)
-        } <span class="kw">else if </span>operator3(<span class="string">&quot;|=!&quot;</span>, p1, p2, p3) {
-            <span class="kw">return </span><span class="prelude-val">Some</span>(<span class="self">Self</span>::SpecEnt(<a href="#785">span</a>, <span class="bool-val">true</span>));
-        } <span class="kw">else if </span>operator3(<span class="string">&quot;~&gt;!&quot;</span>, p1, p2, p3) {
-            <span class="kw">return </span><span class="prelude-val">Some</span>(<span class="self">Self</span>::CallDesc(<a href="#785">span</a>, <span class="bool-val">true</span>));
-        } <span class="kw">else </span>{
-            <span class="kw">return </span><span class="prelude-val">None</span>;
-        }))
+    <span class="kw">fn </span>parse_op3(p1: <span class="kw-2">&amp;</span>Punct, p2: <span class="kw-2">&amp;</span>Punct, p3: <span class="kw-2">&amp;</span>Punct) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">let </span>span = join_spans(join_spans(p1.span(), p2.span()), p3.span());
+        <span class="prelude-val">Some</span>(<span class="self">Self</span>::BinOp(
+            span,
+            <span class="kw">if </span>operator3(<span class="string">&quot;==&gt;&quot;</span>, p1, p2, p3) {
+                PrustiBinaryOp::Implies
+            } <span class="kw">else if </span>operator3(<span class="string">&quot;===&quot;</span>, p1, p2, p3) {
+                PrustiBinaryOp::SnapEq
+            } <span class="kw">else if </span>operator3(<span class="string">&quot;..=&quot;</span>, p1, p2, p3) {
+                PrustiBinaryOp::Rust(RustOp::RangeInclusive)
+            } <span class="kw">else if </span>operator3(<span class="string">&quot;&lt;&lt;=&quot;</span>, p1, p2, p3) {
+                PrustiBinaryOp::Rust(RustOp::LeftShiftAssign)
+            } <span class="kw">else if </span>operator3(<span class="string">&quot;&gt;&gt;=&quot;</span>, p1, p2, p3) {
+                PrustiBinaryOp::Rust(RustOp::RightShiftAssign)
+            } <span class="kw">else if </span>operator3(<span class="string">&quot;|=!&quot;</span>, p1, p2, p3) {
+                <span class="kw">return </span><span class="prelude-val">Some</span>(<span class="self">Self</span>::SpecEnt(span, <span class="bool-val">true</span>));
+            } <span class="kw">else if </span>operator3(<span class="string">&quot;~&gt;!&quot;</span>, p1, p2, p3) {
+                <span class="kw">return </span><span class="prelude-val">Some</span>(<span class="self">Self</span>::CallDesc(span, <span class="bool-val">true</span>));
+            } <span class="kw">else </span>{
+                <span class="kw">return </span><span class="prelude-val">None</span>;
+            },
+        ))
     }
 }
 
 <span class="attr">#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 </span><span class="kw">enum </span>PrustiBinaryOp {
-    Rust(<a href="#851">RustOp</a>),
+    Rust(RustOp),
     Implies,
     Or,
     And,
     SnapEq,
 }
 
-<span class="kw">impl </span><a href="#807">PrustiBinaryOp</a> {
-    <span class="kw">fn </span>binding_power(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; (<a href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>, <a href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>) {
-        <span class="kw">match </span><span class="self"><a href="#816">self</a> </span>{
+<span class="kw">impl </span>PrustiBinaryOp {
+    <span class="kw">fn </span>binding_power(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; (u8, u8) {
+        <span class="kw">match </span><span class="self">self </span>{
             <span class="comment">// TODO: explain
             </span><span class="self">Self</span>::Rust(<span class="kw">_</span>) =&gt; (<span class="number">0</span>, <span class="number">0</span>),
             <span class="self">Self</span>::Implies =&gt; (<span class="number">4</span>, <span class="number">3</span>),
@@ -1850,25 +2000,25 @@ Preparsing consists of two stages:
         }
     }
 
-    <span class="kw">fn </span>translate(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        span: <a href="../../../proc_macro2/struct.Span.html">Span</a>,
-        lhs: <a href="../../../proc_macro2/struct.TokenStream.html">TokenStream</a>,
-        rhs: <a href="../../../proc_macro2/struct.TokenStream.html">TokenStream</a>,
-    ) -&gt; <a href="../../../proc_macro2/struct.TokenStream.html">TokenStream</a> {
-        <span class="kw">match </span><span class="self"><a href="#828">self</a> </span>{
-            <span class="self">Self</span>::Rust(op) =&gt; <a href="#834">op</a>.<a href="#872-877">translate</a>(<a href="#829">span</a>, <a href="#830">lhs</a>, <a href="#831">rhs</a>),
+    <span class="kw">fn </span>translate(<span class="kw-2">&amp;</span><span class="self">self</span>, span: Span, raw_lhs: TokenStream, raw_rhs: TokenStream) -&gt; TokenStream {
+        <span class="kw">let </span>lhs = <span class="macro">quote_spanned! </span>{ raw_lhs.span() =&gt; (#raw_lhs) };
+        <span class="kw">let </span>rhs = <span class="macro">quote_spanned! </span>{ raw_rhs.span() =&gt; (#raw_rhs) };
+        <span class="kw">match </span><span class="self">self </span>{
+            <span class="self">Self</span>::Rust(op) =&gt; op.translate(span, raw_lhs, raw_rhs),
             <span class="comment">// implication is desugared into this form to avoid evaluation
             // order issues: `f(a, b)` makes Rust evaluate both `a` and `b`
             // before the `f` call
             </span><span class="self">Self</span>::Implies =&gt; {
                 <span class="comment">// preserve span of LHS
-                </span><span class="kw">let </span>not_lhs = <a class="macro" href="../../../quote/macro.quote_spanned.html">quote_spanned! </a>{ lhs.span() =&gt; !(#lhs) };
-                <a class="macro" href="../../../quote/macro.quote_spanned.html">quote_spanned! </a>{ span =&gt; (#not_lhs || (#rhs)) }
+                </span><span class="kw">let </span>not_lhs = <span class="macro">quote_spanned! </span>{ lhs.span() =&gt; !#lhs };
+                <span class="macro">quote_spanned! </span>{ span =&gt; #not_lhs || #rhs }
             }
-            <span class="self">Self</span>::Or =&gt; <a class="macro" href="../../../quote/macro.quote_spanned.html">quote_spanned! </a>{ span =&gt; #lhs || #rhs },
-            <span class="self">Self</span>::And =&gt; <a class="macro" href="../../../quote/macro.quote_spanned.html">quote_spanned! </a>{ span =&gt; #lhs &amp;&amp; #rhs },
-            <span class="self">Self</span>::SnapEq =&gt; <a class="macro" href="../../../quote/macro.quote_spanned.html">quote_spanned! </a>{ span =&gt; snapshot_equality(<span class="kw-2">&amp;</span>#lhs, <span class="kw-2">&amp;</span>#rhs) },
+            <span class="self">Self</span>::Or =&gt; <span class="macro">quote_spanned! </span>{ span =&gt; #lhs || #rhs },
+            <span class="self">Self</span>::And =&gt; <span class="macro">quote_spanned! </span>{ span =&gt; #lhs &amp;&amp; #rhs },
+            <span class="self">Self</span>::SnapEq =&gt; {
+                <span class="kw">let </span>joined_span = join_spans(lhs.span(), rhs.span());
+                <span class="macro">quote_spanned! </span>{ joined_span =&gt; snapshot_equality(<span class="kw-2">&amp;</span>#lhs, <span class="kw-2">&amp;</span>#rhs) }
+            }
         }
     }
 }
@@ -1894,51 +2044,45 @@ Preparsing consists of two stages:
     Assign,
 }
 
-<span class="kw">impl </span><a href="#851">RustOp</a> {
-    <span class="kw">fn </span>translate(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        span: <a href="../../../proc_macro2/struct.Span.html">Span</a>,
-        lhs: <a href="../../../proc_macro2/struct.TokenStream.html">TokenStream</a>,
-        rhs: <a href="../../../proc_macro2/struct.TokenStream.html">TokenStream</a>,
-    ) -&gt; <a href="../../../proc_macro2/struct.TokenStream.html">TokenStream</a> {
-        <span class="kw">let </span>op = <a class="self" href="#873">self</a>.<a href="#882-885">to_tokens</a>(<a href="#874">span</a>);
-        <a class="macro" href="../../../quote/macro.quote.html">quote! </a>{ #lhs #op #rhs }
+<span class="kw">impl </span>RustOp {
+    <span class="kw">fn </span>translate(<span class="kw-2">&amp;</span><span class="self">self</span>, span: Span, lhs: TokenStream, rhs: TokenStream) -&gt; TokenStream {
+        <span class="kw">let </span>op = <span class="self">self</span>.to_tokens(span);
+        <span class="macro">quote! </span>{ #lhs #op #rhs }
     }
 
-    <span class="kw">fn </span>to_tokens(
-        <span class="self">self</span>,
-        span: <a href="../../../proc_macro2/struct.Span.html">Span</a>,
-    ) -&gt; <a href="../../../proc_macro2/struct.TokenStream.html">TokenStream</a> {
-        <span class="kw">match </span><span class="self"><a href="#883">self</a> </span>{
-            <span class="self">Self</span>::RangeInclusive =&gt; <a class="macro" href="../../../quote/macro.quote_spanned.html">quote_spanned! </a>{ span =&gt; ..= },
-            <span class="self">Self</span>::LeftShiftAssign =&gt; <a class="macro" href="../../../quote/macro.quote_spanned.html">quote_spanned! </a>{ span =&gt; &lt;&lt;= },
-            <span class="self">Self</span>::RightShiftAssign =&gt; <a class="macro" href="../../../quote/macro.quote_spanned.html">quote_spanned! </a>{ span =&gt; &gt;&gt;= },
-            <span class="self">Self</span>::Range =&gt; <a class="macro" href="../../../quote/macro.quote_spanned.html">quote_spanned! </a>{ span =&gt; .. },
-            <span class="self">Self</span>::AddAssign =&gt; <a class="macro" href="../../../quote/macro.quote_spanned.html">quote_spanned! </a>{ span =&gt; += },
-            <span class="self">Self</span>::SubtractAssign =&gt; <a class="macro" href="../../../quote/macro.quote_spanned.html">quote_spanned! </a>{ span =&gt; -= },
-            <span class="self">Self</span>::MultiplyAssign =&gt; <a class="macro" href="../../../quote/macro.quote_spanned.html">quote_spanned! </a>{ span =&gt; <span class="kw-2">*</span>= },
-            <span class="self">Self</span>::DivideAssign =&gt; <a class="macro" href="../../../quote/macro.quote_spanned.html">quote_spanned! </a>{ span =&gt; /= },
-            <span class="self">Self</span>::ModuloAssign =&gt; <a class="macro" href="../../../quote/macro.quote_spanned.html">quote_spanned! </a>{ span =&gt; %= },
-            <span class="self">Self</span>::BitAndAssign =&gt; <a class="macro" href="../../../quote/macro.quote_spanned.html">quote_spanned! </a>{ span =&gt; &amp;= },
+    <span class="kw">fn </span>to_tokens(<span class="self">self</span>, span: Span) -&gt; TokenStream {
+        <span class="kw">match </span><span class="self">self </span>{
+            <span class="self">Self</span>::RangeInclusive =&gt; <span class="macro">quote_spanned! </span>{ span =&gt; ..= },
+            <span class="self">Self</span>::LeftShiftAssign =&gt; <span class="macro">quote_spanned! </span>{ span =&gt; &lt;&lt;= },
+            <span class="self">Self</span>::RightShiftAssign =&gt; <span class="macro">quote_spanned! </span>{ span =&gt; &gt;&gt;= },
+            <span class="self">Self</span>::Range =&gt; <span class="macro">quote_spanned! </span>{ span =&gt; .. },
+            <span class="self">Self</span>::AddAssign =&gt; <span class="macro">quote_spanned! </span>{ span =&gt; += },
+            <span class="self">Self</span>::SubtractAssign =&gt; <span class="macro">quote_spanned! </span>{ span =&gt; -= },
+            <span class="self">Self</span>::MultiplyAssign =&gt; <span class="macro">quote_spanned! </span>{ span =&gt; <span class="kw-2">*</span>= },
+            <span class="self">Self</span>::DivideAssign =&gt; <span class="macro">quote_spanned! </span>{ span =&gt; /= },
+            <span class="self">Self</span>::ModuloAssign =&gt; <span class="macro">quote_spanned! </span>{ span =&gt; %= },
+            <span class="self">Self</span>::BitAndAssign =&gt; <span class="macro">quote_spanned! </span>{ span =&gt; &amp;= },
             <span class="comment">// Self::BitOrAssign =&gt; quote_spanned! { span =&gt; |= },
-            </span><span class="self">Self</span>::BitXorAssign =&gt; <a class="macro" href="../../../quote/macro.quote_spanned.html">quote_spanned! </a>{ span =&gt; ^= },
-            <span class="self">Self</span>::Arrow =&gt; <a class="macro" href="../../../quote/macro.quote_spanned.html">quote_spanned! </a>{ span =&gt; =&gt; },
-            <span class="self">Self</span>::Comma =&gt; <a class="macro" href="../../../quote/macro.quote_spanned.html">quote_spanned! </a>{ span =&gt; , },
-            <span class="self">Self</span>::Semicolon =&gt; <a class="macro" href="../../../quote/macro.quote_spanned.html">quote_spanned! </a>{ span =&gt; ; },
-            <span class="self">Self</span>::Assign =&gt; <a class="macro" href="../../../quote/macro.quote_spanned.html">quote_spanned! </a>{ span =&gt; = },
+            </span><span class="self">Self</span>::BitXorAssign =&gt; <span class="macro">quote_spanned! </span>{ span =&gt; ^= },
+            <span class="self">Self</span>::Arrow =&gt; <span class="macro">quote_spanned! </span>{ span =&gt; =&gt; },
+            <span class="self">Self</span>::Comma =&gt; <span class="macro">quote_spanned! </span>{ span =&gt; , },
+            <span class="self">Self</span>::Semicolon =&gt; <span class="macro">quote_spanned! </span>{ span =&gt; ; },
+            <span class="self">Self</span>::Assign =&gt; <span class="macro">quote_spanned! </span>{ span =&gt; = },
         }
     }
 }
 
-<span class="kw">fn </span>join_spans(s1: <a href="../../../proc_macro2/struct.Span.html">Span</a>, s2: <a href="../../../proc_macro2/struct.Span.html">Span</a>) -&gt; <a href="../../../proc_macro2/struct.Span.html">Span</a> {
-    <span class="comment">// Tests don&#39;t run in the proc macro context
-    </span><span class="kw">let </span>is_proc_macro = std::panic::catch_unwind(|| <a href="#907">s1</a>.unwrap()).is_ok();
-    <span class="kw">if </span>is_proc_macro {
-        <span class="comment">// This works even when compiled with stable
-        </span><a href="#907">s1</a>.unwrap().join(<a href="#907">s2</a>.unwrap()).expect(<span class="string">&quot;Failed to join spans!&quot;</span>).<a href="https://doc.rust-lang.org/nightly/core/convert/trait.Into.html">into</a>()
-    } <span class="kw">else </span>{
+<span class="kw">fn </span>join_spans(s1: Span, s2: Span) -&gt; Span {
+    <span class="comment">// Tests don&#39;t run in the proc macro context, so this gets a little funky for them
+    </span><span class="kw">if </span><span class="macro">cfg!</span>(test) {
         <span class="comment">// During tests we don&#39;t care so much about returning a default
-        </span><a href="#907">s1</a>.join(<a href="#907">s2</a>).unwrap_or(<a href="#907">s1</a>)
+        </span>s1.join(s2).unwrap_or(s1)
+    } <span class="kw">else </span>{
+        <span class="comment">// This works even when compiled with stable, unlike `s1.join(s2)`
+        </span>s1.unwrap()
+            .join(s2.unwrap())
+            .expect(<span class="string">&quot;Failed to join spans!&quot;</span>)
+            .into()
     }
 }
 
@@ -1947,49 +2091,63 @@ Preparsing consists of two stages:
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
 
     <span class="macro">macro_rules! </span>assert_error {
-        ( <span class="macro-nonterminal">$result</span>:expr, <span class="macro-nonterminal">$expected</span>:expr ) =&gt; {
-            {
-                <span class="kw">let </span>_res = <span class="macro-nonterminal">$result</span>;
-                <span class="macro">assert!</span>(_res.is_err());
-                <span class="kw">let </span>_err = _res.unwrap_err();
-                <span class="macro">assert_eq!</span>(_err.to_string(), <span class="macro-nonterminal">$expected</span>);
-            }
-        };
+        ( <span class="macro-nonterminal">$result</span>:expr, <span class="macro-nonterminal">$expected</span>:expr ) =&gt; {{
+            <span class="kw">let </span>_res = <span class="macro-nonterminal">$result</span>;
+            <span class="macro">assert!</span>(_res.is_err());
+            <span class="kw">let </span>_err = _res.unwrap_err();
+            <span class="macro">assert_eq!</span>(_err.to_string(), <span class="macro-nonterminal">$expected</span>);
+        }};
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_preparser() {
         <span class="macro">assert_eq!</span>(
-            parse_prusti(<span class="string">&quot;a ==&gt; b&quot;</span>.parse().unwrap()).unwrap().to_string(),
-            <span class="string">&quot;(! (a) || (b))&quot;</span>,
+            parse_prusti(<span class="string">&quot;a ==&gt; b&quot;</span>.parse().unwrap())
+                .unwrap()
+                .to_string(),
+            <span class="string">&quot;! (a) || (b)&quot;</span>,
         );
         <span class="macro">assert_eq!</span>(
-            parse_prusti(<span class="string">&quot;a ==&gt; b ==&gt; c&quot;</span>.parse().unwrap()).unwrap().to_string(),
-            <span class="string">&quot;(! (a) || ((! (b) || (c))))&quot;</span>,
+            parse_prusti(<span class="string">&quot;a === b + c&quot;</span>.parse().unwrap())
+                .unwrap()
+                .to_string(),
+            <span class="string">&quot;snapshot_equality (&amp; (a) , &amp; (b + c))&quot;</span>,
         );
         <span class="macro">assert_eq!</span>(
-            parse_prusti(<span class="string">&quot;(a ==&gt; b &amp;&amp; c) ==&gt; d || e&quot;</span>.parse().unwrap()).unwrap().to_string(),
-            <span class="string">&quot;(! (((! (a) || (b &amp;&amp; c)))) || (d || e))&quot;</span>,
+            parse_prusti(<span class="string">&quot;a ==&gt; b ==&gt; c&quot;</span>.parse().unwrap())
+                .unwrap()
+                .to_string(),
+            <span class="string">&quot;! (a) || (! (b) || (c))&quot;</span>,
         );
         <span class="macro">assert_eq!</span>(
-            parse_prusti(<span class="string">&quot;forall(|x: i32| a ==&gt; b)&quot;</span>.parse().unwrap()).unwrap().to_string(),
-            <span class="string">&quot;forall (() , # [prusti :: spec_only] | x : i32 | -&gt; bool { (((! (a) || (b))) : bool) })&quot;</span>,
+            parse_prusti(<span class="string">&quot;(a ==&gt; b &amp;&amp; c) ==&gt; d || e&quot;</span>.parse().unwrap())
+                .unwrap()
+                .to_string(),
+            <span class="string">&quot;! ((! (a) || ((b) &amp;&amp; (c)))) || ((d) || (e))&quot;</span>,
+        );
+        <span class="macro">assert_eq!</span>(
+            parse_prusti(<span class="string">&quot;forall(|x: i32| a ==&gt; b)&quot;</span>.parse().unwrap())
+                .unwrap()
+                .to_string(),
+            <span class="string">&quot;forall (() , # [prusti :: spec_only] | x : i32 | -&gt; bool { ((! (a) || (b)) : bool) })&quot;</span>,
         );
         <span class="macro">assert_eq!</span>(
             parse_prusti(<span class="string">&quot;exists(|x: i32| a === b)&quot;</span>.parse().unwrap()).unwrap().to_string(),
-            <span class="string">&quot;exists (() , # [prusti :: spec_only] | x : i32 | -&gt; bool { ((snapshot_equality (&amp; a , &amp; b)) : bool) })&quot;</span>,
+            <span class="string">&quot;exists (() , # [prusti :: spec_only] | x : i32 | -&gt; bool { ((snapshot_equality (&amp; (a) , &amp; (b))) : bool) })&quot;</span>,
         );
         <span class="macro">assert_eq!</span>(
             parse_prusti(<span class="string">&quot;forall(|x: i32| a ==&gt; b, triggers = [(c,), (d, e)])&quot;</span>.parse().unwrap()).unwrap().to_string(),
-            <span class="string">&quot;forall (((# [prusti :: spec_only] | x : i32 | (c) ,) , (# [prusti :: spec_only] | x : i32 | (d) , # [prusti :: spec_only] | x : i32 | (e) ,) ,) , # [prusti :: spec_only] | x : i32 | -&gt; bool { (((! (a) || (b))) : bool) })&quot;</span>,
+            <span class="string">&quot;forall (((# [prusti :: spec_only] | x : i32 | (c) ,) , (# [prusti :: spec_only] | x : i32 | (d) , # [prusti :: spec_only] | x : i32 | (e) ,) ,) , # [prusti :: spec_only] | x : i32 | -&gt; bool { ((! (a) || (b)) : bool) })&quot;</span>,
         );
         <span class="macro">assert_eq!</span>(
-            parse_prusti(<span class="string">&quot;assert!(a === b ==&gt; b)&quot;</span>.parse().unwrap()).unwrap().to_string(),
-            <span class="string">&quot;assert ! ((! (snapshot_equality (&amp; a , &amp; b)) || (b)))&quot;</span>,
+            parse_prusti(<span class="string">&quot;assert!(a === b ==&gt; b)&quot;</span>.parse().unwrap())
+                .unwrap()
+                .to_string(),
+            <span class="string">&quot;assert ! (! (snapshot_equality (&amp; (a) , &amp; (b))) || (b))&quot;</span>,
         );
     }
 
-    <span class="kw">mod </span>ghost_constraints {
+    <span class="kw">mod </span>type_cond_specs {
         <span class="kw">use </span>std::assert_matches::assert_matches;
 
         <span class="kw">use super</span>::<span class="kw-2">*</span>;
@@ -1997,20 +2155,57 @@ Preparsing consists of two stages:
         <span class="attr">#[test]
         </span><span class="kw">fn </span>invalid_args() {
             <span class="kw">let </span>err_invalid_bounds = <span class="string">&quot;expected one of: `for`, parentheses, `fn`, `unsafe`, `extern`, identifier, `::`, `&lt;`, square brackets, `*`, `&amp;`, `!`, `impl`, `_`, lifetime&quot;</span>;
-            <span class="macro">assert_error!</span>(parse_ghost_constraint(<span class="macro">quote!</span>{ [requires(<span class="bool-val">false</span>)] }), err_invalid_bounds);
-            <span class="macro">assert_error!</span>(parse_ghost_constraint(<span class="macro">quote!</span>{ }), <span class="macro">format!</span>(<span class="string">&quot;unexpected end of input, {}&quot;</span>, err_invalid_bounds));
-            <span class="macro">assert_error!</span>(parse_ghost_constraint(<span class="macro">quote!</span>{T: A }), <span class="string">&quot;expected `,`&quot;</span>);
-            <span class="macro">assert_error!</span>(parse_ghost_constraint(<span class="macro">quote!</span>{T: A, [requires(<span class="bool-val">false</span>)], <span class="string">&quot;nope&quot; </span>}), <span class="string">&quot;unexpected extra tokens&quot;</span>);
-            <span class="macro">assert_error!</span>(parse_ghost_constraint(<span class="macro">quote!</span>{[requires(<span class="bool-val">false</span>)], T: A }), err_invalid_bounds);
-            <span class="macro">assert_error!</span>(parse_ghost_constraint(<span class="macro">quote!</span>{T: A,  }), <span class="string">&quot;expected nested specification in brackets&quot;</span>);
-            <span class="macro">assert_error!</span>(parse_ghost_constraint(<span class="macro">quote!</span>{T: A, {} }), <span class="string">&quot;expected nested specification in brackets&quot;</span>);
+            <span class="macro">assert_error!</span>(
+                parse_type_cond_spec(<span class="macro">quote! </span>{ [requires(<span class="bool-val">false</span>)] }),
+                <span class="string">&quot;expected `where`&quot;
+            </span>);
+            <span class="macro">assert_error!</span>(
+                parse_type_cond_spec(<span class="macro">quote! </span>{ <span class="kw">where </span>[requires(<span class="bool-val">false</span>)] }),
+                err_invalid_bounds
+            );
+            <span class="macro">assert_error!</span>(
+                parse_type_cond_spec(<span class="macro">quote! </span>{ [requires(<span class="bool-val">false</span>)], T: A }),
+                <span class="string">&quot;expected `where`&quot;
+            </span>);
+            <span class="macro">assert_error!</span>(
+                parse_type_cond_spec(<span class="macro">quote! </span>{ <span class="kw">where </span>[requires(<span class="bool-val">false</span>)], T: A }),
+                err_invalid_bounds
+            );
+            <span class="macro">assert_error!</span>(
+                parse_type_cond_spec(<span class="macro">quote! </span>{}),
+                <span class="macro">format!</span>(<span class="string">&quot;unexpected end of input, {}&quot;</span>, <span class="string">&quot;expected `where`&quot;</span>)
+            );
+            <span class="macro">assert_error!</span>(parse_type_cond_spec(<span class="macro">quote! </span>{ T: A }), <span class="string">&quot;expected `where`&quot;</span>);
+            <span class="macro">assert_error!</span>(parse_type_cond_spec(<span class="macro">quote! </span>{ <span class="kw">where </span>T: A }), <span class="string">&quot;expected `,`&quot;</span>);
+            <span class="macro">assert_error!</span>(
+                parse_type_cond_spec(<span class="macro">quote! </span>{ <span class="kw">where </span>T: A,  }),
+                <span class="string">&quot;expected nested specification in brackets&quot;
+            </span>);
+            <span class="macro">assert_error!</span>(
+                parse_type_cond_spec(<span class="macro">quote! </span>{ <span class="kw">where </span>T: A, {} }),
+                err_invalid_bounds
+            );
+            <span class="macro">assert_error!</span>(
+                parse_type_cond_spec(<span class="macro">quote! </span>{ <span class="kw">where </span>T: A [requires(<span class="bool-val">false</span>)] }),
+                <span class="string">&quot;expected `,`&quot;
+            </span>);
+            <span class="macro">assert_error!</span>(
+                parse_type_cond_spec(<span class="macro">quote! </span>{ <span class="kw">where </span>T: A, [requires(<span class="bool-val">false</span>)], <span class="string">&quot;nope&quot; </span>}),
+                <span class="string">&quot;unexpected extra tokens&quot;
+            </span>);
         }
 
         <span class="attr">#[test]
         </span><span class="kw">fn </span>multiple_bounds_multiple_specs() {
-            <span class="kw">let </span>constraint = parse_ghost_constraint(<span class="macro">quote!</span>{ T: A+B+Foo&lt;i32&gt;, [requires(<span class="bool-val">true</span>), ensures(<span class="bool-val">false</span>), pure]}).unwrap();
+            <span class="kw">let </span>constraint = parse_type_cond_spec(
+                <span class="macro">quote! </span>{ <span class="kw">where </span>T: A+B+Foo&lt;i32&gt;, U: C, [requires(<span class="bool-val">true</span>), ensures(<span class="bool-val">false</span>), pure]},
+            )
+            .unwrap();
 
-            assert_bounds_eq(constraint.trait_bounds, <span class="macro">quote!</span>{ T : A + B + Foo &lt; i32 &gt; });
+            assert_bounds_eq(
+                <span class="kw-2">&amp;</span>constraint.trait_bounds,
+                <span class="kw-2">&amp;</span>[<span class="macro">quote! </span>{ T : A + B + Foo &lt; i32 &gt; }, <span class="macro">quote! </span>{ U : C }],
+            );
             <span class="kw">match </span><span class="kw-2">&amp;</span>constraint.specs[<span class="number">0</span>] {
                 NestedSpec::Requires(ts) =&gt; <span class="macro">assert_eq!</span>(ts.to_string(), <span class="string">&quot;true&quot;</span>),
                 <span class="kw">_ </span>=&gt; <span class="macro">panic!</span>(),
@@ -2025,30 +2220,37 @@ Preparsing consists of two stages:
 
         <span class="attr">#[test]
         </span><span class="kw">fn </span>no_specs() {
-            <span class="kw">let </span>constraint = parse_ghost_constraint(<span class="macro">quote!</span>{ T: A, []}).unwrap();
-            assert_bounds_eq(constraint.trait_bounds, <span class="macro">quote!</span>{ T : A });
+            <span class="kw">let </span>constraint = parse_type_cond_spec(<span class="macro">quote! </span>{ <span class="kw">where </span>T: A, []}).unwrap();
+            assert_bounds_eq(<span class="kw-2">&amp;</span>constraint.trait_bounds, <span class="kw-2">&amp;</span>[<span class="macro">quote! </span>{ T : A }]);
             <span class="macro">assert!</span>(constraint.specs.is_empty());
         }
 
         <span class="attr">#[test]
         </span><span class="kw">fn </span>fully_qualified_trait_path() {
-            <span class="kw">let </span>constraint = parse_ghost_constraint(<span class="macro">quote!</span>{ T: path::to::A, [requires(<span class="bool-val">true</span>)]}).unwrap();
-            assert_bounds_eq(constraint.trait_bounds, <span class="macro">quote!</span>{ T : path :: to :: A });
+            <span class="kw">let </span>constraint =
+                parse_type_cond_spec(<span class="macro">quote! </span>{ <span class="kw">where </span>T: path::to::A, [requires(<span class="bool-val">true</span>)]}).unwrap();
+            assert_bounds_eq(<span class="kw-2">&amp;</span>constraint.trait_bounds, <span class="kw-2">&amp;</span>[<span class="macro">quote! </span>{ T : path :: to :: A }]);
         }
-        
+
         <span class="attr">#[test]
         </span><span class="kw">fn </span>tuple_generics() {
             <span class="comment">// just check that parsing succeeds
-            </span><span class="macro">assert!</span>(parse_ghost_constraint(<span class="macro">quote!</span>{ T: Fn&lt;(i32,), Output = i32&gt;, []}).is_ok());
-            <span class="macro">assert!</span>(parse_ghost_constraint(<span class="macro">quote!</span>{ T: Fn&lt;(i32,)&gt;, []}).is_ok());
-            <span class="macro">assert!</span>(parse_ghost_constraint(<span class="macro">quote!</span>{ T: Fn&lt;(i32, bool)&gt;, []}).is_ok());
-            <span class="macro">assert!</span>(parse_ghost_constraint(<span class="macro">quote!</span>{ T: Fn&lt;(i32, bool,)&gt;, []}).is_ok());
+            </span><span class="macro">assert!</span>(parse_type_cond_spec(<span class="macro">quote! </span>{ <span class="kw">where </span>T: Fn&lt;(i32,), Output = i32&gt;, []}).is_ok());
+            <span class="macro">assert!</span>(parse_type_cond_spec(<span class="macro">quote! </span>{ <span class="kw">where </span>T: Fn&lt;(i32,)&gt;, []}).is_ok());
+            <span class="macro">assert!</span>(parse_type_cond_spec(<span class="macro">quote! </span>{ <span class="kw">where </span>T: Fn&lt;(i32, bool)&gt;, []}).is_ok());
+            <span class="macro">assert!</span>(parse_type_cond_spec(<span class="macro">quote! </span>{ <span class="kw">where </span>T: Fn&lt;(i32, bool,)&gt;, []}).is_ok());
         }
-        
-        <span class="kw">fn </span>assert_bounds_eq(parsed: syn::PredicateType, quote: TokenStream) {
-            <span class="macro">assert_eq!</span>(syn::WherePredicate::Type(parsed), <span class="macro">syn::parse_quote!</span>{ #quote });
+
+        <span class="kw">fn </span>assert_bounds_eq(parsed: <span class="kw-2">&amp;</span>[syn::PredicateType], quotes: <span class="kw-2">&amp;</span>[TokenStream]) {
+            <span class="macro">assert_eq!</span>(parsed.len(), quotes.len());
+            <span class="kw">for </span>(parsed, quote) <span class="kw">in </span>parsed.iter().zip(quotes.iter()) {
+                <span class="macro">assert_eq!</span>(
+                    syn::WherePredicate::Type(parsed.clone()),
+                    <span class="macro">syn::parse_quote! </span>{ #quote }
+                );
+            }
         }
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="prusti_specs" data-themes="" data-resource-suffix="" data-rustdoc-version="1.67.0-nightly (96ddd32c4 2022-11-14)" data-search-js="search-39ee4160c7dc16c9.js" data-settings-js="settings-7873449fa8c00e11.js" data-settings-css="settings-af96d9e2fc13e081.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="prusti_specs" data-themes="" data-resource-suffix="" data-rustdoc-version="1.68.0-nightly (afaf3e07a 2023-01-14)" data-search-js="search-181581080540673f.js" data-settings-js="settings-a2afdefbb7c817f1.js" data-settings-css="settings-84508a86fe805444.css" ></div></body></html>
