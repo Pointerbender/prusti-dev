@@ -213,7 +213,6 @@
 <tr><td><a href="config/flags.html#dump_reborrowing_dag_in_debug_info"><code>DUMP_REBORROWING_DAG_IN_DEBUG_INFO</code></a></td><td><code>bool</code></td><td><code>false</code></td><td>A</td></tr>
 <tr><td><a href="config/flags.html#dump_viper_program"><code>DUMP_VIPER_PROGRAM</code></a></td><td><code>bool</code></td><td><code>false</code></td><td>A</td></tr>
 <tr><td><a href="config/flags.html#enable_cache"><code>ENABLE_CACHE</code></a></td><td><code>bool</code></td><td><code>true</code></td><td>A</td></tr>
-<tr><td><a href="config/flags.html#enable_ghost_constraints"><code>ENABLE_GHOST_CONSTRAINTS</code></a></td><td><code>bool</code></td><td><code>false</code></td><td>A</td></tr>
 <tr><td><a href="config/flags.html#enable_purification_optimization"><code>ENABLE_PURIFICATION_OPTIMIZATION</code></a></td><td><code>bool</code></td><td><code>false</code></td><td>A</td></tr>
 <tr><td><a href="config/flags.html#enable_type_invariants"><code>ENABLE_TYPE_INVARIANTS</code></a></td><td><code>bool</code></td><td><code>false</code></td><td>A</td></tr>
 <tr><td><a href="config/flags.html#enable_verify_only_basic_block_path"><code>ENABLE_VERIFY_ONLY_BASIC_BLOCK_PATH</code></a></td><td><code>bool</code></td><td><code>false</code></td><td>A</td></tr>
@@ -335,11 +334,6 @@ For more information see <a href="https://github.com/viperproject/silicon/blob/4
 You can find them either in <code>log/viper_program</code> or <code>target/verify/log/viper_program</code>.</p>
 <h2 id="enable_cache"><a class="header" href="#enable_cache"><code>ENABLE_CACHE</code></a></h2>
 <p>When enabled, verification requests (to verify individual <code>fn</code>s) are cached to improve future verification. By default the cache is only saved in memory (of the <code>prusti-server</code> if enabled). For long-running verification projects use <a href="config/flags.html#cache_path"><code>CACHE_PATH</code></a> to save to disk.</p>
-<h2 id="enable_ghost_constraints"><a class="header" href="#enable_ghost_constraints"><code>ENABLE_GHOST_CONSTRAINTS</code></a></h2>
-<p>When enabled, ghost constraints can be used in Prusti specifications.</p>
-<p>Ghost constraints allow for specifications which are only active if a certain &quot;constraint&quot; (i.e. a trait bound
-on a generic type parameter) is satisfied.</p>
-<p><strong>This is an experimental feature</strong>, because it is currently possible to introduce unsound verification behavior.</p>
 <h2 id="enable_purification_optimization"><a class="header" href="#enable_purification_optimization"><code>ENABLE_PURIFICATION_OPTIMIZATION</code></a></h2>
 <p>When enabled, impure methods are optimized using the purification optimization, which tries to convert heap operations to pure (snapshot-based) operations.</p>
 <blockquote>
@@ -621,8 +615,8 @@ Debug and trace logs are not available in release builds.</p>
 </ul>
 <p>In this stage, the actual Rust compiler is invoked to make sure the given code is valid Rust code, both syntactically and semantically. Prusti integrates with the Rust compiler using <a href="https://rustc-dev-guide.rust-lang.org/rustc-driver.html"><code>rustc_driver</code></a>. This allows running the Rust compiler with <a href="https://doc.rust-lang.org/nightly/nightly-rustc/rustc_driver/trait.Callbacks.html">callbacks</a> triggered when important stages of processing are completed. In Prusti, we are interested in two stages:</p>
 <ul>
-<li><a href="https://github.com/viperproject/prusti-dev/blob/9ca9cd1b9bcfd9870691fa5a7a957a90987ba4af/prusti/src/lib.rs#L44"><code>prusti/src/lib.rs</code> - <code>PrustiCompilerCalls::after_expansion</code></a> - for debugging and unit testing purposes, it is useful to see the Rust AST after the Prusti specifications are processed.</li>
-<li><a href="https://github.com/viperproject/prusti-dev/blob/9ca9cd1b9bcfd9870691fa5a7a957a90987ba4af/prusti/src/lib.rs#L64"><code>prusti/src/lib.rs</code> - <code>PrustiCompilerCalls::after_analysis</code></a> - once the type checking is done and the code is determined to be type safe. Code that is syntactically invalid or has type errors is not relevant for Prusti applications.</li>
+<li><a href="https://github.com/viperproject/prusti-dev/blob/f6850c5036c4a85c8812b46eed8ac472ca95fe25/prusti/src/callbacks.rs#L58"><code>prusti/src/callbacks.rs</code> - <code>PrustiCompilerCalls::after_expansion</code></a> - for debugging and unit testing purposes, it is useful to see the Rust AST after the Prusti specifications are processed.</li>
+<li><a href="https://github.com/viperproject/prusti-dev/blob/f6850c5036c4a85c8812b46eed8ac472ca95fe25/prusti/src/callbacks.rs#L89"><code>prusti/src/callbacks.rs</code> - <code>PrustiCompilerCalls::after_analysis</code></a> - once the type checking is done and the code is determined to be type safe. Code that is syntactically invalid or has type errors is not relevant for Prusti applications.</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="prusti-processing-stage"><a class="header" href="#prusti-processing-stage">Prusti processing stage</a></h1>
 <ul>
